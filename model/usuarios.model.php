@@ -38,7 +38,7 @@ class ModelUsuarios
   //  Mostrar todos los perfiles
   static public function mdlMostrarPerfiles($tabla)
   {
-    $statement = Conexion::conn()->prepare("SELECT tba_perfilusuario.IdPerfil, tba_perfilusuario.NombrePerfil FROM $tabla");
+    $statement = Conexion::conn()->prepare("SELECT tba_perfilusuario.IdPerfilUsuario, tba_perfilusuario.NombrePerfil FROM $tabla");
     $statement -> execute();
     return $statement -> fetchAll();
   }
@@ -46,12 +46,13 @@ class ModelUsuarios
   //  Ingresar un nuevo usuario
   static public function mdlIngresarUsuario($tabla, $datosCreate)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $tabla (NombreUsuario, CorreoUsuario, PasswordUsuario, CodPerfil, CodArea) VALUES(:NombreUsuario, :CorreoUsuario, :PasswordUsuario, :CodPerfil, :CodArea)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $tabla (NombreUsuario, CorreoUsuario, PasswordUsuario, IdPerfilUsuario, FechaCreacion, FechaActualizacion) VALUES(:NombreUsuario, :CorreoUsuario, :PasswordUsuario, :IdPerfilUsuario, :FechaCreacion, :FechaActualizacion)");
     $statement -> bindParam(":NombreUsuario", $datosCreate["NombreUsuario"], PDO::PARAM_STR);
     $statement -> bindParam(":CorreoUsuario", $datosCreate["CorreoUsuario"], PDO::PARAM_STR);
     $statement -> bindParam(":PasswordUsuario", $datosCreate["PasswordUsuario"], PDO::PARAM_STR);
-    $statement -> bindParam(":CodPerfil", $datosCreate["CodPerfil"], PDO::PARAM_STR);
-    $statement -> bindParam(":CodArea", $datosCreate["CodArea"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdPerfilUsuario", $datosCreate["IdPerfilUsuario"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaCreacion", $datosCreate["FechaCreacion"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosCreate["FechaActualizacion"], PDO::PARAM_STR);
 
     if($statement -> execute())
     {
@@ -62,6 +63,17 @@ class ModelUsuarios
       return "error";
     }
   }
+
+
+
+
+
+
+
+
+
+
+
 
   //  Mostrar los datos a editar de un usuario
   public static function mdlMostrarDatosEditar($tabla, $codUsuario)

@@ -21,7 +21,7 @@ class ControllerUsuarios
         $_SESSION["perfilUsuario"] = $datosUsuario["IdPerfil"];
         $_SESSION["nombreUsuario"] = $datosUsuario["NombreUsuario"];
         
-        //  Registramos la fecha para el último login
+        //  Registramos la fecha para el último login --> Colocar en un solo método para guardar varios registros
         date_default_timezone_set('America/Bogota');
         $fecha = date('Y-m-d');
         $hora = date('H:i:s');
@@ -30,13 +30,13 @@ class ControllerUsuarios
         echo '<script>
             window.location = "home";
           </script>';
-        /*$registrarLogin = ModelUsuarios::mdlActualizarUltimoLogin($tabla, $ultimoLogin, $datosUsuario["IdUsuario"]);
+        $registrarLogin = ModelUsuarios::mdlActualizarUltimoLogin($tabla, $ultimoLogin, $datosUsuario["IdUsuario"]);
         if ($registrarLogin == "ok")
         {
           echo '<script>
             window.location = "home";
           </script>';
-        }*/
+        }
       }
       else
       {
@@ -64,7 +64,9 @@ class ControllerUsuarios
         "NombreUsuario" => $_POST["nombreUsuario"],
         "CorreoUsuario" => $_POST["correoUsuario"],
         "PasswordUsuario" => $passwordCrypt,
-        "CodPerfil" => $_POST["perfilUsuario"],
+        "IdPerfilUsuario" => $_POST["perfilUsuario"],
+        "FechaCreacion"=>date("Y-m-d"),
+        "FechaActualizacion"=>date("Y-m-d"),
       );
 
       $respuesta = ModelUsuarios::mdlIngresarUsuario($tabla, $datosCreate);
@@ -93,6 +95,16 @@ class ControllerUsuarios
     $listaPerfiles = ModelUsuarios::mdlMostrarPerfiles($tabla);
     return $listaPerfiles;
   }
+
+
+
+
+
+
+
+
+
+
 
   //  Editar Usuario
   static public function ctrEditarUsuario()

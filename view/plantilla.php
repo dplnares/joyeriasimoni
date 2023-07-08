@@ -27,7 +27,13 @@
       {
         if(
           $_GET["ruta"] == "home" ||  
-          $_GET["ruta"] == "usuarios" ||
+          $_GET["ruta"] == "usuario" ||
+          $_GET["ruta"] == "categoria" ||
+          $_GET["ruta"] == "producto" ||
+          $_GET["ruta"] == "tienda" ||
+          $_GET["ruta"] == "stock" ||
+          $_GET["ruta"] == "ingresos" ||
+          $_GET["ruta"] == "salidas" ||
           $_GET["ruta"] == "signout" 
         )
         {
