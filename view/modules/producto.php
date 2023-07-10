@@ -9,19 +9,19 @@
     <div id="layoutSidenav_content">
       <main class="bg">
         <div class="container-fluid px-4">
-          <h1 class="mt-4">Catálogo
+          <h1 class="mt-4">Productos
           </h1>
 
             <div class="d-flex m-2">
-              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAddUser">
-                Agregar Usuario
+              <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modalAgregarProducto">
+                Agregar Producto
               </button>
             </div>
 
           <div class="card mb-4">
             <div class="card-header">
               <i class="fas fa-table me-1"></i>
-              Todos los Usuarios
+              Todos los Productos
             </div>
             <div class="card-body">
               <table id="datatablesSimple" class="data-table-Usuario table">

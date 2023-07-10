@@ -1,4 +1,4 @@
-//  Mostrar los datos en el modal para editar
+//  Mostrar los datos en el modal para editar usuario
 $(".table").on("click", ".btnEditarUsuario", function () {
   var codUsuario = $(this).attr("codUsuario");
   var datos = new FormData();
@@ -18,8 +18,7 @@ $(".table").on("click", ".btnEditarUsuario", function () {
       $("#editarNombre").val(respuesta["NombreUsuario"]);
       $("#editarCorreo").val(respuesta["CorreoUsuario"]);
       $("#editarPerfil").val(respuesta["NombrePerfil"]);
-      $("#editarArea").val(respuesta["NombreArea"]);
-      $("#codUsuario").val(respuesta["CodUsuario"]);
+      $("#codUsuario").val(respuesta["IdUsuario"]);
     }
   });
 });
@@ -39,7 +38,7 @@ $(".table").on("click", ".btnEliminarUsuario", function () {
     confirmButtonText: 'Si, borrar usuario!'
   }).then((result) => {
     if (result.isConfirmed) {
-      window.location = "index.php?ruta=usuarios&codUsuario="+codUsuario;
+      window.location = "index.php?ruta=usuario&codUsuario="+codUsuario;
     }
   });
 });

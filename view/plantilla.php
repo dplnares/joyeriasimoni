@@ -68,6 +68,8 @@
   <script src="js/datatables-simple-demo.js"></script>
 
   <script src="js/plantilla.js"></script>
-  <script src="js/usuarios.js"></script>
+  <script src="js/usuario.js"></script>
+  <script src="js/tienda.js"></script>
+  <script src="js/categoria.js"></script>
 </body>
 </html>

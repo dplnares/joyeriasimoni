@@ -15,9 +15,7 @@ class AjaxUsuarios
   }
 }
 
-/*=============================================
-EDITAR USUARIO
-=============================================*/
+//  Editar usuario
 if(isset($_POST["codUsuario"])){
 	$editar = new AjaxUsuarios();
 	$editar -> codUsuario = $_POST["codUsuario"];

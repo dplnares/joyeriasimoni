@@ -18,7 +18,7 @@ class ControllerUsuarios
       {
         $_SESSION["login"] = "ok";
         $_SESSION["emailUsuario"] = $datosUsuario["CorreoUsuario"];
-        $_SESSION["perfilUsuario"] = $datosUsuario["IdPerfil"];
+        $_SESSION["perfilUsuario"] = $datosUsuario["IdPerfilUsuario"];
         $_SESSION["nombreUsuario"] = $datosUsuario["NombreUsuario"];
         
         //  Registramos la fecha para el último login --> Colocar en un solo método para guardar varios registros
@@ -45,13 +45,6 @@ class ControllerUsuarios
     }
   }
 
-  //  Mostrar todos los usuarios actuales
-  static public function ctrMostrarUsuarios()
-  {
-    $tabla = "tba_usuario";
-    $listaUsuarios = ModelUsuarios::mdlMostrarUsuarios($tabla);
-    return $listaUsuarios;
-  }
 
   //  Agregar un nuevo usuario
   static public function ctrCrearUsuario()
@@ -61,10 +54,10 @@ class ControllerUsuarios
       $tabla = "tba_usuario";
       $passwordCrypt = crypt($_POST["passwordUsuario"], '$2a$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi');
       $datosCreate = array(
+        "IdPerfilUsuario" => $_POST["perfilUsuario"],
         "NombreUsuario" => $_POST["nombreUsuario"],
         "CorreoUsuario" => $_POST["correoUsuario"],
         "PasswordUsuario" => $passwordCrypt,
-        "IdPerfilUsuario" => $_POST["perfilUsuario"],
         "FechaCreacion"=>date("Y-m-d"),
         "FechaActualizacion"=>date("Y-m-d"),
       );
@@ -80,31 +73,13 @@ class ControllerUsuarios
             text: "¡Usuario ingresado Correctamente!",
           }).then(function(result){
 						if(result.value){
-							window.location = "usuarios";
+							window.location = "usuario";
 						}
 					});
         </script>';
       }	
     }
   }
-
-  //  Mostrar los perfiles de los usuarios
-  static public function ctrMostrarPerfiles()
-  {
-    $tabla = "tba_perfilusuario";
-    $listaPerfiles = ModelUsuarios::mdlMostrarPerfiles($tabla);
-    return $listaPerfiles;
-  }
-
-
-
-
-
-
-
-
-
-
 
   //  Editar Usuario
   static public function ctrEditarUsuario()
@@ -115,8 +90,9 @@ class ControllerUsuarios
       $datosUpdate = array(
         "NombreUsuario" =>  $_POST["editarNombre"],
         "CorreoUsuario" => $_POST["editarCorreo"],
-        "CodPerfil" => $_POST["editarPerfil"],
-        "CodUsuario" => $_POST["codUsuario"],
+        "IdPerfilUsuario" => $_POST["editarPerfil"],
+        "IdUsuario" => $_POST["codUsuario"],
+        "FechaActualizacion"=>date("Y-m-d"),
       );
 
       $respuesta = ModelUsuarios::mdlUpdateUsuario($tabla, $datosUpdate);
@@ -130,7 +106,7 @@ class ControllerUsuarios
             text: "¡Usuario editado Correctamente!",
           }).then(function(result){
 						if(result.value){
-							window.location = "usuarios";
+							window.location = "usuario";
 						}
 					});
         </script>';
@@ -153,10 +129,10 @@ class ControllerUsuarios
           Swal.fire({
             icon: "success",
             title: "Correcto",
-            text: "¡Usuario editado Correctamente!",
+            text: "¡Usuario eliminado Correctamente!",
           }).then(function(result){
 						if(result.value){
-							window.location = "usuarios";
+							window.location = "usuario";
 						}
 					});
         </script>';
@@ -164,4 +140,28 @@ class ControllerUsuarios
     }
   }
 
+
+  //  Mostrar todos los usuarios actuales
+  static public function ctrMostrarUsuarios()
+  {
+    $tabla = "tba_usuario";
+    $listaUsuarios = ModelUsuarios::mdlMostrarUsuarios($tabla);
+    return $listaUsuarios;
+  }  
+
+  //  Mostrar los perfiles de los usuarios
+  static public function ctrMostrarPerfiles()
+  {
+    $tabla = "tba_perfilusuario";
+    $listaPerfiles = ModelUsuarios::mdlMostrarPerfiles($tabla);
+    return $listaPerfiles;
+  }
+
+  //  Mostrar datos de un usuario para editar
+  static public function ctrMostrarDatosEditar($codUsuario)
+  {
+    $tabla = "tba_usuario";
+    $datosUsuario = ModelUsuarios::mdlMostrarDatosEditar($tabla, $codUsuario);
+    return $datosUsuario;
+  }
 }
