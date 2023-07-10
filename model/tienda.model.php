@@ -4,22 +4,6 @@ require_once "conexion.php";
 
 class ModelTiendas
 {
-  //  Mostrar todas las tiendas
-  public static function mdlMostrarTiendas($tabla)
-  {
-    $statement = Conexion::conn()->prepare("SELECT tba_tienda.IdTienda, tba_tienda.CodTienda, tba_tienda.NombreTienda, tba_tienda.FechaCreacion FROM $tabla ORDER BY IdTienda ASC");
-    $statement -> execute();
-    return $statement -> fetchAll();
-  }
-
-  //  Mostrar datos para editar tienda
-  public static function mdlMostrarDatosEditar($tabla, $codTienda)
-  {
-    $statement = Conexion::conn()->prepare("SELECT tba_tienda.IdTienda, tba_tienda.CodTienda, tba_tienda.NombreTienda FROM $tabla WHERE tba_tienda.IdTienda = $codTienda");
-    $statement -> execute();
-    return $statement -> fetch();
-  }
-
   //  Crear una nueva tienda
   public static function mdlIngresarNuevaTienda($tabla, $datosCreate)
   {
@@ -69,5 +53,29 @@ class ModelTiendas
     {
       return "error";
     }
+  }
+
+  //  Mostrar todas las tiendas
+  public static function mdlMostrarTiendas($tabla)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_tienda.IdTienda, tba_tienda.CodTienda, tba_tienda.NombreTienda, tba_tienda.FechaCreacion FROM $tabla ORDER BY IdTienda ASC");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
+
+  //  Mostrar datos para editar tienda
+  public static function mdlMostrarDatosEditar($tabla, $codTienda)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_tienda.IdTienda, tba_tienda.CodTienda, tba_tienda.NombreTienda FROM $tabla WHERE tba_tienda.IdTienda = $codTienda");
+    $statement -> execute();
+    return $statement -> fetch();
+  }
+
+  //  Mostrar datos de una tienda
+  public static function mdlMostrarUnaTienda($tabla, $codTienda)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_tienda.IdTienda, tba_tienda.NombreTienda FROM $tabla WHERE tba_tienda.IdTienda = $codTienda");
+    $statement -> execute();
+    return $statement -> fetch();
   }
 }

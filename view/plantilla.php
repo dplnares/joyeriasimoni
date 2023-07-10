@@ -34,6 +34,7 @@
           $_GET["ruta"] == "stock" ||
           $_GET["ruta"] == "ingresos" ||
           $_GET["ruta"] == "salidas" ||
+          $_GET["ruta"] == "crearIngreso" ||
           $_GET["ruta"] == "signout" 
         )
         {
@@ -71,5 +72,9 @@
   <script src="js/usuario.js"></script>
   <script src="js/tienda.js"></script>
   <script src="js/categoria.js"></script>
+  <script src="js/producto.js"></script>
+  <script src="js/stock.js"></script>
+  <script src="js/ingresos.js"></script>
+  <script src="js/salidas.js"></script>
 </body>
 </html>

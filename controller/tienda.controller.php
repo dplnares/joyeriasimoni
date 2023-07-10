@@ -2,22 +2,6 @@
 
 class ControllerTiendas
 {
-  //  Mostrar todas las tiendas
-  public static function ctrMostrarTiendas()
-  {
-    $tabla = "tba_tienda";
-    $listaTiendas = ModelTiendas::mdlMostrarTiendas($tabla);
-    return $listaTiendas;
-  }
-
-  //  Mostrar datos para editar tienda
-  public static function ctrMostrarDatosEditar($codTienda)
-  {
-    $tabla = "tba_tienda";
-    $datosTienda = ModelTiendas::mdlMostrarDatosEditar($tabla, $codTienda);
-    return $datosTienda;
-  }
-
   //  Crear nueva tienda
   static public function ctrCrearTienda()
   {
@@ -108,4 +92,27 @@ class ControllerTiendas
     }
   }
 
+  //  Mostrar todas las tiendas
+  public static function ctrMostrarTiendas()
+  {
+    $tabla = "tba_tienda";
+    $listaTiendas = ModelTiendas::mdlMostrarTiendas($tabla);
+    return $listaTiendas;
+  }
+
+  //  Mostrar datos para editar tienda
+  public static function ctrMostrarDatosEditar($codTienda)
+  {
+    $tabla = "tba_tienda";
+    $datosTienda = ModelTiendas::mdlMostrarDatosEditar($tabla, $codTienda);
+    return $datosTienda;
+  }
+
+  //  Mostrar datos de una tienda
+  public static function ctrMostrarUnaTienda($codTienda)
+  {
+    $tabla = "tba_tienda";
+    $datosTienda = ModelTiendas::mdlMostrarUnaTienda($tabla, $codTienda);
+    return $datosTienda;
+  }
 }

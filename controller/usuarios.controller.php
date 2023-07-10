@@ -20,6 +20,7 @@ class ControllerUsuarios
         $_SESSION["emailUsuario"] = $datosUsuario["CorreoUsuario"];
         $_SESSION["perfilUsuario"] = $datosUsuario["IdPerfilUsuario"];
         $_SESSION["nombreUsuario"] = $datosUsuario["NombreUsuario"];
+        $_SESSION["idUsuario"] = $datosUsuario["IdUsuario"];
         
         //  Registramos la fecha para el último login --> Colocar en un solo método para guardar varios registros
         date_default_timezone_set('America/Bogota');

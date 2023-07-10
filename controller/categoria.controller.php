@@ -2,22 +2,6 @@
 
 class ControllerCategorias
 {
-  //  Mostrar todas las tiendas
-  public static function ctrMostrarCategorias()
-  {
-    $tabla = "tba_categoria";
-    $listaCategorias = ModelCategorias::mdlMostrarCategorias($tabla);
-    return $listaCategorias;
-  }
-
-  //  Mostrar datos para editar categoria
-  public static function ctrMostrarDatosEditar($codCategoria)
-  {
-    $tabla = "tba_categoria";
-    $datosTienda = ModelCategorias::mdlMostrarDatosEditar($tabla, $codCategoria);
-    return $datosTienda;
-  }
-
   //  Agregar nueva categoria
   public static function ctrCrearCategoria()
   {
@@ -108,6 +92,30 @@ class ControllerCategorias
         </script>';
       }
     }
+  }
+
+  //  Mostrar todas las categorias datable
+  public static function ctrMostrarCategorias()
+  {
+    $tabla = "tba_categoria";
+    $listaCategorias = ModelCategorias::mdlMostrarCategorias($tabla);
+    return $listaCategorias;
+  }
+
+  //  Mostrar datos para editar categoria
+  public static function ctrMostrarDatosEditar($codCategoria)
+  {
+    $tabla = "tba_categoria";
+    $datosTienda = ModelCategorias::mdlMostrarDatosEditar($tabla, $codCategoria);
+    return $datosTienda;
+  }
+
+  //  Mostrar las categorias para un producto
+  public static function ctrMostrarCategoriaSelect()
+  {
+    $tabla = "tba_categoria";
+    $listaCategorias = ModelCategorias::mdlMostrarCategoriasSelect($tabla);
+    return $listaCategorias;
   }
   
 }

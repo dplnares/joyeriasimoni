@@ -4,21 +4,6 @@ require_once "conexion.php";
 
 class ModelCategorias
 {
-  //  Mostrar todas las categorías
-  public static function mdlMostrarCategorias($tabla)
-  {
-    $statement = Conexion::conn()->prepare("SELECT tba_categoria.IdCategoria, tba_categoria.CodCategoria, tba_categoria.NombreCategoria, tba_categoria.DescripcionCategoria, tba_categoria.FechaCreacion FROM $tabla ORDER BY IdCategoria ASC");
-    $statement -> execute();
-    return $statement -> fetchAll();
-  }
-
-  public static function mdlMostrarDatosEditar($tabla, $codCategoria)
-  {
-    $statement = Conexion::conn()->prepare("SELECT tba_categoria.IdCategoria, tba_categoria.CodCategoria, tba_categoria.NombreCategoria, tba_categoria.DescripcionCategoria FROM $tabla WHERE tba_categoria.IdCategoria = $codCategoria");
-    $statement -> execute();
-    return $statement -> fetch();
-  }
-
   //  Ingresar nueva categoria
   public static function mdlIngresarNuevaCategoria($tabla, $datosCreate)
   {
@@ -70,5 +55,29 @@ class ModelCategorias
     {
       return "error";
     }
+  }
+
+  //  Mostrar todas las categorías
+  public static function mdlMostrarCategorias($tabla)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_categoria.IdCategoria, tba_categoria.CodCategoria, tba_categoria.NombreCategoria, tba_categoria.DescripcionCategoria, tba_categoria.FechaCreacion FROM $tabla ORDER BY IdCategoria ASC");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
+
+  //  Mostrar los datos para editar una categoria
+  public static function mdlMostrarDatosEditar($tabla, $codCategoria)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_categoria.IdCategoria, tba_categoria.CodCategoria, tba_categoria.NombreCategoria, tba_categoria.DescripcionCategoria FROM $tabla WHERE tba_categoria.IdCategoria = $codCategoria");
+    $statement -> execute();
+    return $statement -> fetch();
+  }
+
+  //  Mostrar categorias para un select
+  public static function mdlMostrarCategoriasSelect($tabla)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_categoria.IdCategoria, tba_categoria.NombreCategoria, FROM $tabla");
+    $statement -> execute();
+    return $statement -> fetchAll();
   }
 }

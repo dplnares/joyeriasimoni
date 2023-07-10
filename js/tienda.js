@@ -22,7 +22,7 @@ $(".table").on("click", ".btnEditarTienda", function () {
   });
 });
 
-//  Alerta para eliminar un usuario
+//  Alerta para eliminar una tienda
 $(".table").on("click", ".btnEliminarTienda", function () {
   var codTienda = $(this).attr("codTienda");
 
