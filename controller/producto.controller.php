@@ -116,4 +116,20 @@ class ControllerProductos
     $datosProducto = ModelProductos::mdlMostrarDatosEditar($tabla, $codProducto);
     return $datosProducto;
   }
+
+  //  Mostrar listado de productos para ingresos
+  public static function ctrMostrarProductosModalIngreso()
+  {
+    $tabla = "tba_producto";
+    $listaProductos = ModelProductos::mdlMostrarProductosModal($tabla);
+    return $listaProductos;
+  }
+
+  //  Mostrar los datos de un producto en específico
+  public static function ctrMostrarDatosProducto($codProducto)
+  {
+    $tabla = "tba_producto";
+    $datosProducto = ModelProductos::mdlMostrarDatosProducto($tabla, $codProducto);
+    return $datosProducto;
+  }
 }

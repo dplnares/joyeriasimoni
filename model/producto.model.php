@@ -80,4 +80,19 @@ class ModelProductos
     return $statement -> fetch();
   }
 
+  //  Mostrar los productos para el modal de ingresos
+  public static function mdlMostrarProductosModal($tabla)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_producto.IdProducto, tba_producto.CodProducto, tba_producto.DescripcionProducto FROM $tabla ORDER BY IdProducto ASC");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
+
+  //  Mostrar los datos de un producto
+  public static function mdlMostrarDatosProducto($tabla, $codProducto)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_producto.IdProducto, tba_producto.CodProducto, tba_producto.DescripcionProducto, tba_producto.PrecioUnitarioProducto, tba_producto.PesoProducto FROM $tabla WHERE tba_producto.IdProducto = $codProducto");
+    $statement -> execute();
+    return $statement -> fetch();
+  }
 }

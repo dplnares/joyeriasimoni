@@ -81,7 +81,7 @@
       </div>
             <?php
             }
-            //  Lista de stock por tienda
+            //  Listar los ingresos por tienda
             if(isset($_GET["codTienda"]))
             {
             ?>
@@ -104,30 +104,32 @@
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Descripción</th>
-                        <th>Codigo de Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Precio Total</th>
-                        <th>Último Movimiento</th>
+                        <th>Numero Documento</th>
+                        <th>Nombre Proveedor</th>
+                        <th>Total</th>
+                        <th>Fecha Creacion</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
-                      $listarStock = ControllerStock::ctrMostrarStockActual();
-                      foreach ($listarStock as $key => $value) 
-                      {
-                        echo
-                        '<tr>
-                          <td>'.($key + 1).'</td>
-                          <td>'.$value["DescripcionProducto"].'</td>
-                          <td>'.$value["CodProducto"].'</td>
-                          <td>'.$value["CantidadStock"].'</td>
-                          <td>'.$value["PrecioUnitarioProducto"].'</td>
-                          <td>'.$value["PrecioTotal"].'</td>
-                          <td>'.$value["FechaCreacion"].'</td>
-                        </tr>';
-                      }
+                        $listarIngresos = ControllerIngresos::ctrMostrarIngresosTienda();
+                        foreach ($listarIngresos as $key => $value) 
+                        {
+                          echo
+                          '<tr>
+                            <td>'.($key + 1).'</td>
+                            <td>'.$value["NumeroDocumento"].'</td>
+                            <td>'.$value["NombreProveedor"].'</td>
+                            <td>'.$value["Total"].'</td>
+                            <td>'.$value["FechaCreacion"].'</td>
+                            <td>
+                              <button class="btn btn-success btnVisualizarIngreso" codIngreso="'.$value["IdMovimiento"].'"><i class="fa-solid fa-search"></i></button>
+                              <button class="btn btn-warning btnEditarIngreso" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalEditarTienda"><i class="fa-solid fa-pencil"></i></button>
+                              <button class="btn btn-danger btnEliminarIngreso" codIngreso="'.$value["IdMovimiento"].'"><i class="fa-solid fa-trash"></i></button>
+                            </td> 
+                          </tr>';
+                        }
                       ?>
                     </tbody>
                   </table>
