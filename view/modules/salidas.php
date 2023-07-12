@@ -81,49 +81,55 @@
       </div>
             <?php
             }
-            //  Lista de stock por tienda
+            //  Listar las salidas por tienda
             if(isset($_GET["codTienda"]))
             {
             ?>
-              <div class="d-flex m-2">
+              <div class="d-inline-flex m-2">
+                <button type="button" class="btn btn-info btnNuevaSalida" id="btnNuevaSalida" codTienda="<?php echo $_GET["codTienda"] ?>">Nueva Salida </button>
+              </div>
+              <div class="d-inline-flex m-2">
                 <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php echo $_GET["codTienda"] ?>">
-                <button type="button" class="btn btn-success">Descargar Excel</button>
+                  <button type="button" class="btn btn-success">Descargar Excel</button>
+                </a>
               </div>
 
               <div class="card mb-4">
                 <div class="card-header">
                   <i class="fas fa-table me-1"></i>
-                  Todas los productos
+                  Todas las salidas
                 </div>
                 <div class="card-body">
-                  <table id="datatablesSimple" class="data-table-ListaProductos table">
+                  <table id="datatablesSimple" class="data-table-ListaSalidas table">
                     <thead>
                       <tr>
                         <th>#</th>
-                        <th>Descripción</th>
-                        <th>Codigo de Producto</th>
-                        <th>Cantidad</th>
-                        <th>Precio Unitario</th>
-                        <th>Precio Total</th>
-                        <th>Último Movimiento</th>
+                        <th>Numero Documento</th>
+                        <th>Nombre Proveedor</th>
+                        <th>Total</th>
+                        <th>Fecha Creacion</th>
+                        <th>Acciones</th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php
-                      $listarStock = ControllerStock::ctrMostrarStockActual();
-                      foreach ($listarStock as $key => $value) 
-                      {
-                        echo
-                        '<tr>
-                          <td>'.($key + 1).'</td>
-                          <td>'.$value["DescripcionProducto"].'</td>
-                          <td>'.$value["CodProducto"].'</td>
-                          <td>'.$value["CantidadStock"].'</td>
-                          <td>'.$value["PrecioUnitarioProducto"].'</td>
-                          <td>'.$value["PrecioTotal"].'</td>
-                          <td>'.$value["FechaCreacion"].'</td>
-                        </tr>';
-                      }
+                        $listarSalidas = ControllerSalidas::ctrMostrarSalidasTienda();
+                        foreach ($listarSalidas as $key => $value) 
+                        {
+                          echo
+                          '<tr>
+                            <td>'.($key + 1).'</td>
+                            <td>'.$value["NumeroDocumento"].'</td>
+                            <td>'.$value["NombreProveedor"].'</td>
+                            <td>'.$value["Total"].'</td>
+                            <td>'.$value["FechaCreacion"].'</td>
+                            <td>
+                              <button class="btn btn-success btnVisualizarSalida" codIngreso="'.$value["IdMovimiento"].'"><i class="fa-solid fa-search"></i></button>
+                              <button class="btn btn-warning btnEditarSalida" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalEditarTienda"><i class="fa-solid fa-pencil"></i></button>
+                              <button class="btn btn-danger btnEliminarSalida" codIngreso="'.$value["IdMovimiento"].'"><i class="fa-solid fa-trash"></i></button>
+                            </td> 
+                          </tr>';
+                        }
                       ?>
                     </tbody>
                   </table>

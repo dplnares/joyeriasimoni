@@ -8,6 +8,7 @@ require_once "controller/categoria.controller.php";
 require_once "controller/producto.controller.php";
 require_once "controller/stock.controller.php";
 require_once "controller/ingresos.controller.php";
+require_once "controller/salidas.controller.php";
 
 
 //  Models
@@ -17,6 +18,7 @@ require_once "model/categoria.model.php";
 require_once "model/producto.model.php";
 require_once "model/stock.model.php";
 require_once "model/ingresos.model.php";
+require_once "model/salidas.model.php";
 
 $plantilla = new ControllerPlantilla();
 $plantilla -> ctrPlantilla();
