@@ -15,11 +15,11 @@ class ControllerStock
   }
 
   //  Mostrar el stock actual de un producto en una tienda en específico
-  public static function ctrObtenerStockActual($codProducto, $codTienda)
+  public static function ctrObtenerStockActualProducto($codProducto, $codTienda)
   {
-    $stmt = Conexion::conn()->prepare("SELECT tba_stock.IdStock, tba_stock.IdProducto, tba_stock.CantidadIngresos, tba_stock.CantidadSalidas, tba_stockCantidadActual FROM tba_stock WHERE tba_stock.IdTienda = $codTienda and tba_stock.IdProducto = $codProducto");
-    $stmt -> execute();
-    return $stmt -> fetch();
+    $tabla = "tba_stock";
+    $respuesta = ModelStock::mdlObtenerStockActualProducto($tabla, $codProducto, $codTienda);
+    return $respuesta;
   }
 
   //  Update del stock actual
@@ -35,6 +35,15 @@ class ControllerStock
   {
     $tabla = "tba_stock";
     $respuesta = ModelStock::mdlCrearRegistroStock($tabla, $datosStockCreate);
+    return $respuesta;
+  }
+
+  //  Mostrar todos los productos en stock
+  public static function ctrMostrarProductosEnStock()
+  {
+    $tabla = "tba_stock";
+    $codTienda = $_GET["codTienda"];
+    $respuesta = ModelStock::mdlObtenerProductosEnStock($tabla, $codTienda);
     return $respuesta;
   }
 }

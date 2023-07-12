@@ -12,7 +12,7 @@ class ControllerIngresos
       $tiendaActual = $_POST["codTienda"];
 
       $datosCabecera = array(
-        "IdTipoMovimiento" => 1,
+        "IdTipoMovimiento" => "1",
         "IdTienda" => $tiendaActual,
         "IdUsuario" => $_SESSION["idUsuario"],
         "NumeroDocumento" => $_POST["numeroDocumentoIngreso"],
@@ -47,7 +47,7 @@ class ControllerIngresos
             "PrecioUnitario"=> $precioUnitario,
             "ParcialTotal" => $parcial,
             "FechaCreacion"=> date("Y-m-d"),
-            "FechaActualiza"=> date("Y-m-d")
+            "FechaActualizacion"=> date("Y-m-d")
           );
 
           $respuestaDetalle = ModelIngresos::mdlIngresarDetalleIngreso($tablaDetalle, $datosDetalle);
@@ -55,8 +55,7 @@ class ControllerIngresos
           //  Actualizar el stock luego de que se agrego correctamente el detalle del ingreso
           if($respuestaDetalle == "ok")
           {
-            $stockActual = ControllerStock::ctrObtenerStockActual($idProducto, $tiendaActual);
-            $tablaStock = "tba_stock";
+            $stockActual = ControllerStock::ctrObtenerStockActualProducto($idProducto, $tiendaActual);
             //  Si el stock de ese producto es cero, se creará un nuevo registro. Caso contrario se actualizará el registro previo
             if($stockActual != null)
             {
@@ -69,7 +68,7 @@ class ControllerIngresos
                 "CantidadActual" => $cantidadActual,
                 "PrecioUnitario" => $precioUnitario,
                 "PrecioTotal" => $nuevoParcial,
-                "FechaActualiza" => date("Y-m-d")
+                "FechaActualizacion" => date("Y-m-d")
               );
               $respuestaStock = ControllerStock::ctrActualizarStock($stockActual["IdStock"], $datosStockUpdate);
             }
@@ -84,7 +83,7 @@ class ControllerIngresos
                 "PrecioUnitario"=> $precioUnitario,
                 "PrecioTotal"=> $parcial,
                 "FechaCreacion"=> date("Y-m-d"),
-                "FechaActualiza"=> date("Y-m-d")
+                "FechaActualizacion"=> date("Y-m-d")
               );
               $respuestaStock = ControllerStock::ctrCrearRegistroStock($datosStockCreate);
             }
@@ -94,14 +93,12 @@ class ControllerIngresos
         {
           echo '
             <script>
-              swal({
-                type: "success",
-                title: "¡El ingreso se guardo correctamente!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar"
+              Swal.fire({
+                icon: "success",
+                title: "Correcto",
+                text: "Ingreso registrado Correctamente!",
               }).then(function(result){
-                if(result.value)
-                {
+                if(result.value){
                   window.location = "index.php?ruta=ingresos&codTienda='.$tiendaActual.'";
                 }
               });
@@ -112,14 +109,12 @@ class ControllerIngresos
         {
           echo '
             <script>
-              swal({
-                type: "error",
-                title: "¡El detalle del ingreso no se guardo correctamente!",
-                showConfirmButton: true,
-                confirmButtonText: "Cerrar"
+              Swal.fire({
+                icon: "error",
+                title: "Correcto",
+                text: "¡Error al ingresar el registro!",
               }).then(function(result){
-                if(result.value)
-                {
+                if(result.value){
                   window.location = "index.php?ruta=ingresos&codTienda='.$tiendaActual.'";
                 }
               });
@@ -130,19 +125,17 @@ class ControllerIngresos
       else
       {
         echo '
-        <script>
-          swal({
-            type: "error",
-            title: "¡La cabecera del ingreso no se guardo correctamente!",
-            showConfirmButton: true,
-            confirmButtonText: "Cerrar"
-          }).then(function(result){
-            if(result.value)
-            {
-              window.location = "index.php?ruta=ingresos&codTienda='.$tiendaActual.'";
-            }
-          });
-        </script>
+          <script>
+            Swal.fire({
+              icon: "error",
+              title: "Correcto",
+              text: "¡Error al ingresar el registro!",
+            }).then(function(result){
+              if(result.value){
+                window.location = "index.php?ruta=ingresos&codTienda='.$tiendaActual.'";
+              }
+            });
+          </script>
         ';
       }
     }

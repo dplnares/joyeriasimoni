@@ -48,7 +48,7 @@ $(".tablaProductos").on("click", ".btnAgregarProductoIngreso", function(){
         '<div class="col-lg-5" style="padding-right:0px">'+
           '<div class="input-group">'+
             '<span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProductoIngreso" idProducto="'+idProducto+'"><i class="fa fa-times"></i></button></span>'+
-            '<input type="text" class="form-control productoIngreso" idProducto="'+idProducto+'" name="agregarProducto" value="'+descripcionProducto+'" readonly>'+
+            '<input type="text" class="form-control nuevoproductoIngreso" idProducto="'+idProducto+'" name="agregarProducto" value="'+descripcionProducto+'" readonly>'+
           '</div>'+
         '</div>'+
 
@@ -117,14 +117,14 @@ $(".formularioIngreso").on("change", "input.cantidadProducto", function(){
 function listarProductosIngreso()
 {
   var listarProductosIngreso = [];
-  var recurso = $(".idProducto")
+  var recurso = $(".nuevoproductoIngreso")
   var cantidad = $(".cantidadProducto")
   var precioUnitario = $(".precioProducto")
   var precioParcial = $(".nuevoParcialProducto")
   for(var i = 0; i < recurso.length; i++)
   {
     listarProductosIngreso.push({
-      "CodRecurso" : $(recurso[i]).attr("idRecurso"),
+      "CodRecurso" : $(recurso[i]).attr("idProducto"),
       "Cantidad" : $(cantidad[i]).val(),
       "PrecioUnitario" : $(precioUnitario[i]).val(),
       "ParcialProducto" : $(precioParcial[i]).val(),

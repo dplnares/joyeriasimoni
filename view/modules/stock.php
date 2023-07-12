@@ -86,7 +86,7 @@
             {
             ?>
               <div class="d-flex m-2">
-                <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php echo $_GET["codTienda"] ?>">
+                <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php echo $_GET["codTienda"] ?>"></a>
                 <button type="button" class="btn btn-success">Descargar Excel</button>
               </div>
 
@@ -102,7 +102,9 @@
                         <th>#</th>
                         <th>Descripción</th>
                         <th>Codigo de Producto</th>
-                        <th>Cantidad</th>
+                        <th>Cantidad Ingresos</th>
+                        <th>Cantidad Salidas</th>
+                        <th>Cantidad Actual</th>
                         <th>Precio Unitario</th>
                         <th>Precio Total</th>
                         <th>Último Movimiento</th>
@@ -118,10 +120,12 @@
                           <td>'.($key + 1).'</td>
                           <td>'.$value["DescripcionProducto"].'</td>
                           <td>'.$value["CodProducto"].'</td>
-                          <td>'.$value["CantidadStock"].'</td>
-                          <td>'.$value["PrecioUnitarioProducto"].'</td>
+                          <td>'.$value["CantidadIngresos"].'</td>
+                          <td>'.$value["CantidadSalidas"].'</td>
+                          <td>'.$value["CantidadActual"].'</td>
+                          <td>'.$value["PrecioUnitario"].'</td>
                           <td>'.$value["PrecioTotal"].'</td>
-                          <td>'.$value["FechaCreacion"].'</td>
+                          <td>'.$value["FechaActualizacion"].'</td>
                         </tr>';
                       }
                       ?>

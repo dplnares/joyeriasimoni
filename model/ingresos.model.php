@@ -12,6 +12,7 @@ class ModelIngresos
     $statement -> bindParam(":IdTienda", $datosCabecera["IdTienda"], PDO::PARAM_STR);
     $statement -> bindParam(":IdUsuario", $datosCabecera["IdUsuario"], PDO::PARAM_STR);
     $statement -> bindParam(":NumeroDocumento", $datosCabecera["NumeroDocumento"], PDO::PARAM_STR);
+    $statement -> bindParam(":NombreProveedor", $datosCabecera["NombreProveedor"], PDO::PARAM_STR);
     $statement -> bindParam(":Total", $datosCabecera["Total"], PDO::PARAM_STR);
     $statement -> bindParam(":FechaCreacion", $datosCabecera["FechaCreacion"], PDO::PARAM_STR);
     $statement -> bindParam(":FechaActualizacion", $datosCabecera["FechaActualizacion"], PDO::PARAM_STR);

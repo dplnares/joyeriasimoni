@@ -113,8 +113,8 @@
   </div>
   
 <?php
-  $crearIngreso = new ControllerIngresos;
-  $crearIngreso -> ctrCrearIngreso();
+  //$crearIngreso = new ControllerIngresos;
+  //$crearIngreso -> ctrCrearIngreso();
 ?>
 
 <!-- Modal ingresar nuevo recurso -->
@@ -136,13 +136,14 @@
               <th style ="width:10px">#</th>
               <th>Nombre Recurso</th>
               <th>Codigo</th>
-              <th>Acciones</th>              
+              <th>Cantidad</th>
+              <th>Acciones</th>      
             </tr> 
           </thead>
           <tbody>
             <?php
               //  Modificar por una lista de los productos en stock
-              $listaProductos = ControllerProductos::ctrMostrarProductosModalIngreso();
+              $listaProductos = ControllerStock::ctrMostrarProductosEnStock();
               foreach ($listaProductos as $key => $value)
               {
                 echo ' 
@@ -150,9 +151,10 @@
                     <td>'.($key + 1).'</td>
                     <td>'.$value["DescripcionProducto"].'</td>
                     <td>'.$value["CodProducto"].'</td>
+                    <td>'.$value["CantidadActual"].'</td>
                     <td>
                       <div class="btn-group">
-                        <button class="btn btn-primary btnAgregarProductoIngreso recuperarBoton" idProducto="'.$value["IdProducto"].'">Agregar</button> 
+                        <button class="btn btn-primary btnAgregarProductoSalida recuperarBoton" stockActual="'.$value["CantidadActual"].'"  idProducto="'.$value["IdProducto"].'">Agregar</button> 
                       </div>
                     </td>
                   </tr>'
