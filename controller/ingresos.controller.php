@@ -70,7 +70,7 @@ class ControllerIngresos
                 "PrecioTotal" => $nuevoParcial,
                 "FechaActualizacion" => date("Y-m-d")
               );
-              $respuestaStock = ControllerStock::ctrActualizarStock($stockActual["IdStock"], $datosStockUpdate);
+              $respuestaStock = ControllerStock::ctrActualizarStockIngreso($stockActual["IdStock"], $datosStockUpdate);
             }
             else
             {

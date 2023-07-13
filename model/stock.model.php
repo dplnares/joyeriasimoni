@@ -37,11 +37,32 @@ class ModelStock
   }
 
   //  Actualizar el stock actual de una tienda
-  public static function mdlUpdateStock($tabla, $codStock, $datosStockUpdate)
+  public static function mdlUpdateStockIngreso($tabla, $codStock, $datosStockUpdate)
   {
     $statement = Conexion::conn()->prepare("UPDATE $tabla SET CantidadIngresos=:CantidadIngresos, CantidadActual=:CantidadActual, PrecioUnitario=:PrecioUnitario, PrecioTotal=:PrecioTotal, FechaActualizacion=:FechaActualizacion WHERE IdStock=:IdStock");
 
     $statement -> bindParam(":CantidadIngresos", $datosStockUpdate["CantidadIngresos"], PDO::PARAM_STR);
+    $statement -> bindParam(":CantidadActual", $datosStockUpdate["CantidadActual"], PDO::PARAM_STR);
+    $statement -> bindParam(":PrecioUnitario", $datosStockUpdate["PrecioUnitario"], PDO::PARAM_STR);
+    $statement -> bindParam(":PrecioTotal", $datosStockUpdate["PrecioTotal"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosStockUpdate["FechaActualizacion"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdStock", $codStock, PDO::PARAM_STR);
+    if($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+
+  //  Actualizar el stock de una salida
+  public static function mdlUpdateStockSalida($tabla, $codStock, $datosStockUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $tabla SET CantidadSalidas=:CantidadSalidas, CantidadActual=:CantidadActual, PrecioUnitario=:PrecioUnitario, PrecioTotal=:PrecioTotal, FechaActualizacion=:FechaActualizacion WHERE IdStock=:IdStock");
+
+    $statement -> bindParam(":CantidadSalidas", $datosStockUpdate["CantidadSalidas"], PDO::PARAM_STR);
     $statement -> bindParam(":CantidadActual", $datosStockUpdate["CantidadActual"], PDO::PARAM_STR);
     $statement -> bindParam(":PrecioUnitario", $datosStockUpdate["PrecioUnitario"], PDO::PARAM_STR);
     $statement -> bindParam(":PrecioTotal", $datosStockUpdate["PrecioTotal"], PDO::PARAM_STR);

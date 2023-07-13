@@ -49,7 +49,7 @@
 
                 <!-- Nombre del cliente -->
                 <div class="col-12">
-                  <label for="nombreCliente" class="form-label">Nombre del proveedor</label>
+                  <label for="nombreCliente" class="form-label">Nombre del cliente</label>
                   <input type="text" class="form-control" id="nombreCliente" name="nombreCliente">
                 </div>
               </div>
@@ -72,8 +72,8 @@
                   <div class="col-lg-2">Parcial</div>
                 </div>
 
-                <div class="form-group row nuevoProductoIngreso">
-                  <input type="hidden" id="listarProductosIngreso" name="listarProductosIngreso">
+                <div class="form-group row nuevoProductoSalida">
+                  <input type="hidden" id="listarProductosSalida" name="listarProductosSalida">
                   <input type="hidden" id="codTienda" name="<?php echo $_GET["codTienda"] ?>">
                 </div>
               </div>
@@ -95,7 +95,7 @@
 
                 <div class="row" style="font-weight: bold">
                   <div class="col-lg-1"></div>
-                  <div class="col-lg-1"><span>Total:</span></div><div class="col-lg-2"><input type="text" style="text-align: right;" class="form-control input-lg" min="0" id="nuevoTotalIngreso" name="nuevoTotalIngreso" placeholder="0.00" readonly></div>              
+                  <div class="col-lg-1"><span>Total:</span></div><div class="col-lg-2"><input type="text" style="text-align: right;" class="form-control input-lg" min="0" id="nuevoTotalSalida" name="nuevoTotalSalida" placeholder="0.00" readonly></div>              
                 </div>
               </div>
 
@@ -113,8 +113,8 @@
   </div>
   
 <?php
-  //$crearIngreso = new ControllerIngresos;
-  //$crearIngreso -> ctrCrearIngreso();
+  $crearIngreso = new ControllerSalidas;
+  $crearIngreso -> ctrCrearSalida();
 ?>
 
 <!-- Modal ingresar nuevo recurso -->

@@ -22,11 +22,19 @@ class ControllerStock
     return $respuesta;
   }
 
-  //  Update del stock actual
-  public static function ctrActualizarStock($codStock, $datosStockUpdate)
+  //  Update del stock actual de un ingreso
+  public static function ctrActualizarStockIngreso($codStock, $datosStockUpdate)
   {
     $tabla = "tba_stock";
-    $respuesta = ModelStock::mdlUpdateStock($tabla, $codStock, $datosStockUpdate);
+    $respuesta = ModelStock::mdlUpdateStockIngreso($tabla, $codStock, $datosStockUpdate);
+    return $respuesta;
+  }
+
+  //  Update del stock actual de una salida
+  public static function ctrActualizarStockSalida($codStock, $datosStockUpdate)
+  {
+    $tabla = "tba_stock";
+    $respuesta = ModelStock::mdlUpdateStockSalida($tabla, $codStock, $datosStockUpdate);
     return $respuesta;
   }
 

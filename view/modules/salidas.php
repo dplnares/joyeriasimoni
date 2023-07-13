@@ -120,7 +120,7 @@
                           '<tr>
                             <td>'.($key + 1).'</td>
                             <td>'.$value["NumeroDocumento"].'</td>
-                            <td>'.$value["NombreProveedor"].'</td>
+                            <td>'.$value["NombreCliente"].'</td>
                             <td>'.$value["Total"].'</td>
                             <td>'.$value["FechaCreacion"].'</td>
                             <td>

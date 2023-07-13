@@ -22,6 +22,15 @@ class AjaxProductos
     $respuesta = ControllerProductos::ctrMostrarDatosProducto($idProductoIngreso);
     echo json_encode($respuesta);
   }
+
+  //  Agregar Producto al detalle de la salida
+  public $idProductoSalida;
+  public function ajaxListarProductosSalida()
+  {
+    $idProductoSalida = $this->idProductoSalida;
+    $respuesta = ControllerProductos::ctrMostrarDatosProducto($idProductoSalida);
+    echo json_encode($respuesta);
+  }
 }
 
 //  Editar Producto
@@ -33,7 +42,14 @@ if(isset($_POST["codProducto"])){
 
 //  Agregar Producto al detalle del ingreso
 if(isset($_POST["idProductoIngreso"])){
-  $listarProducto = new AjaxProductos();
-	$listarProducto -> idProductoIngreso = $_POST["idProductoIngreso"];
-	$listarProducto -> ajaxListarProductosIngreso();
+  $listaProductoIngreso = new AjaxProductos();
+	$listaProductoIngreso -> idProductoIngreso = $_POST["idProductoIngreso"];
+	$listaProductoIngreso -> ajaxListarProductosIngreso();
+}
+
+//  Agregar Producto al detalle de la salida
+if(isset($_POST["idProductoSalida"])){
+  $listarProductoSalida = new AjaxProductos();
+	$listarProductoSalida -> idProductoSalida = $_POST["idProductoSalida"];
+	$listarProductoSalida -> ajaxListarProductosSalida();
 }
