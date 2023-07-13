@@ -79,7 +79,7 @@ $(".tablaProductos").on("click", ".btnAgregarProductoIngreso", function(){
       '</div>'
       );
       listarProductosIngreso();
-      sumarListaProductos();
+      sumarListaProductosIngresos();
     } 
 	});
 });
@@ -94,7 +94,7 @@ $(".formularioIngreso").on("click", "button.quitarProductoIngreso", function(){
   $("button.recuperarBoton[idProducto='"+idProducto+"']").addClass('btn-primary btnAgregarProductoIngreso');
 
   listarProductosIngreso();
-  sumarListaProductos();
+  sumarListaProductosIngresos();
 });
 
 //  Actualizar el valor del parcial segun la cantidad
@@ -109,7 +109,95 @@ $(".formularioIngreso").on("change", "input.cantidadProducto", function(){
   parcial.val(precioParcial.toFixed(2));
 
   listarProductosIngreso();
-  sumarListaProductos();
+  sumarListaProductosIngresos();
+});
+
+//  Modal Visualizar detalle del movimiento
+$(".table").on("click", ".btnVisualizarIngreso", function(){
+  
+  var codMovimientoVisualizarIngreso = $(this).attr("codIngreso");
+
+  var datos = new FormData();
+  datos.append("codMovimientoVisualizarIngreso", codMovimientoVisualizarIngreso);
+  $.ajax({
+    url:"ajax/movimientos.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType:"json",
+    success:function(respuesta)
+    {
+      function obtenerDetalleIngreso(lista)
+      {
+        var descripcionProducto = lista["DescripcionProducto"];
+        var cantidadProducto = lista["CantidadMovimiento"];
+        var precioUnitario = lista["PrecioUnitario"];
+        var parcialMovimiento = lista["ParcialTotal"];
+        
+        $(".nuevoDetalleIngreso").append(
+          '<div class="row" style="padding:5px 15px">'+
+            //  Descripcion
+            '<div class="col-md-5">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevoDetalleIngreso" name="nuevoDetalleIngreso" id="nuevoDetalleIngreso" value="'+descripcionProducto+'" readonly>'+
+              '</div>'+
+            '</div>' +
+            //  Cantidad
+            '<div class="col-md-2">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevaCantidadIngreso" name="nuevaCantidadIngreso" id="nuevaCantidadIngreso" value="'+cantidadProducto+'" readonly>'+
+              '</div>'+
+            '</div>' +
+            //  Precio Unitario
+            '<div class="col-md-2">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevoPrecioUIngreso" name="nuevoPrecioUIngreso" id="nuevoPrecioUIngreso" value="'+precioUnitario+'" readonly>'+
+              '</div>'+
+            '</div>' +
+            //  Parcial Movimiento
+            '<div class="col-md-3">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevoPrecioParcialIngreso" name="nuevoPrecioParcialIngreso" id="nuevoPrecioParcialIngreso" value="'+parcialMovimiento+'" readonly>'+
+              '</div>'+
+            '</div>' +
+          '</div>'
+        );
+      }
+      respuesta.forEach((lista) => obtenerDetalleIngreso(lista));
+    } 
+	});
+});
+$('#modalVisualizarIngreso').on('hidden.bs.modal', function () {
+  var elementos = document.querySelectorAll('#nuevoDetalleIngreso').length;
+  for(i=0; i<elementos; i++)
+  {
+    document.getElementById("nuevoDetalleIngreso").remove();
+    document.getElementById("nuevaCantidadIngreso").remove();
+    document.getElementById("nuevoPrecioUIngreso").remove();
+    document.getElementById("nuevoPrecioParcialIngreso").remove();
+  }
+});
+
+//  Alerta para eliminar un ingreso
+$(".table").on("click", ".btnEliminarIngreso", function () {
+  var codIngreso = $(this).attr("codIngreso");
+  var codTienda = $(this).attr("codTienda");
+  swal.fire({
+    title: '¿Está seguro de borrar el registro?',
+    text: "¡No podrá revertir el cambio!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, borrar ingreso!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location = "index.php?ruta=ingresos&codIngreso="+codIngreso+"&codTienda="+codTienda;
+    }
+  });
 });
 
 
@@ -133,7 +221,7 @@ function listarProductosIngreso()
   $("#listarProductosIngreso").val(JSON.stringify(listarProductosIngreso));
 }
 
-function sumarListaProductos()
+function sumarListaProductosIngresos()
 {
   var precioItem = $(".nuevoParcialProducto");
   var arraySumaPrecio = []; 

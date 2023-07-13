@@ -141,6 +141,116 @@ class ControllerIngresos
     }
   }
 
+  //  Eliminar Ingreso
+  public static function ctrEliminarIngreso()
+  {
+    if (isset($_GET["codIngreso"]))
+    {
+      $tablaMovimientos = "tba_movimiento";
+      $tablaDetalle = "tba_detallemovimiento";
+
+      $codIngreso = $_GET["codIngreso"];
+      $codTienda = $_GET["codTienda"];
+
+      $listaDetalleIngreso = self::ctrObtenerListaEliminar($codIngreso);
+      
+      //  Comprobar que todos los elemenos de la lista se pueden eliminar sin generar ningun negativo, de ser así se restaran todos los elementos registrados en el ingreso con el stock actual, caso contrario se mandará un mensaje de error.
+      $confirmacionEliminarIngreso = ControllerStock::ctrConfirmarEliminarIngreso($codTienda, $listaDetalleIngreso);
+
+      if($confirmacionEliminarIngreso == "ok")
+      {
+        $eliminarIngresos = ControllerStock::ctrActualizarEliminacionIngreso($codTienda, $listaDetalleIngreso);
+
+        //  Si se hacer el update en el stock de los recursos eliminados, se procederá a eliminar el detalle del ingreso y posteriormente el detalle del mismo
+        if($eliminarIngresos == "ok")
+        {
+          $respuestaEliminacionDetalle = ModelIngresos::mdlEliminarDetalleIngreso($tablaDetalle, $codIngreso);
+
+          if($respuestaEliminacionDetalle == "ok")
+          {
+            $respuestaEliminacionCabecera = ModelIngresos::mdlEliminarCabeceraIngreso($tablaMovimientos, $codIngreso);
+
+            if($respuestaEliminacionCabecera == "ok")
+            {
+              echo '
+                <script>
+                  Swal.fire({
+                    icon: "success",
+                    title: "Correcto",
+                    text: "¡El ingreso se eliminó correctamente!",
+                  }).then(function(result){
+                    if(result.value){
+                      window.location = "usuario";
+                    }
+                  });
+                </script>';
+            }
+            else
+            {
+              echo '
+                <script>
+                  Swal.fire({
+                    icon: "error",
+                    title: "Error",
+                    text: "El detalle del ingreso no fue eliminado correctamente",
+                  }).then(function(result){
+                    if(result.value){
+                      window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
+                    }
+                  });
+                </script>';
+            }
+          }
+          else
+          {
+            echo '
+              <script>
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "La cabecera del ingreso no fue eliminado correctamente",
+                }).then(function(result){
+                  if(result.value){
+                    window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
+                  }
+                });
+              </script>';
+          }
+        }
+        else
+        {
+          echo '
+            <script>
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: "El stock no fue actualizado correctamente",
+              }).then(function(result){
+                if(result.value){
+                  window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
+                }
+              });
+            </script>';
+        }
+      }
+      else
+      {
+        echo '
+          <script>
+            Swal.fire({
+              icon: "error",
+              title: "¡Error!",
+              text: "Uno de los productos no tiene suficiente stock",
+            }).then(function(result){
+              if(result.value){
+                window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
+              }
+            });
+          </script>';
+      }
+    }
+  }
+
   //  Mostrar todos los ingresos de una tienda
   public static function ctrMostrarIngresosTienda()
   {
@@ -153,5 +263,21 @@ class ControllerIngresos
       $respuesta = ModelIngresos::mdlMostrarIngresosTienda($tabla, $codTienda, $tipoMovimiento);
       return $respuesta;
     }
+  }
+
+  //  Mostrar detalle del ingreso
+  public static function ctrMostrarDetalleIngreso($codIngresoVisualizar)
+  {
+    $tabla = "tba_detallemovimiento";
+    $respuesta = ModelIngresos::mdlMostrarDetalleIngreso($tabla, $codIngresoVisualizar);
+    return $respuesta;
+  }
+
+  //  Obtener el recurso que se va a eliminar del ingreso
+  public static function ctrObtenerListaEliminar($codIngreso)
+  {
+    $tabla = "tba_detallemovimiento";
+    $respuesta = ModelIngresos::mdlObtenerListaEliminar($tabla, $codIngreso);
+    return $respuesta;
   }
 }

@@ -7,7 +7,6 @@
   <?php require "modules/header.php" ?>
 </head>
 
-
   <?php
     if (isset($_SESSION["login"]) && $_SESSION["login"] == "ok")
     {

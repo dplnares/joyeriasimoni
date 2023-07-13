@@ -57,6 +57,26 @@ class ModelStock
     }
   }
 
+  //  Actualizar el stock luego de eliminarse un ingreso
+  public static function mdlUpdateStockIngresoEliminado($tabla, $codStock, $datosStockUpdate)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $tabla SET CantidadIngresos=:CantidadIngresos, CantidadActual=:CantidadActual, PrecioTotal=:PrecioTotal, FechaActualizacion=:FechaActualizacion WHERE IdStock=:IdStock");
+
+    $statement -> bindParam(":CantidadIngresos", $datosStockUpdate["CantidadIngresos"], PDO::PARAM_STR);
+    $statement -> bindParam(":CantidadActual", $datosStockUpdate["CantidadActual"], PDO::PARAM_STR);
+    $statement -> bindParam(":PrecioTotal", $datosStockUpdate["PrecioTotal"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosStockUpdate["FechaActualizacion"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdStock", $codStock, PDO::PARAM_STR);
+    if($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+  
   //  Actualizar el stock de una salida
   public static function mdlUpdateStockSalida($tabla, $codStock, $datosStockUpdate)
   {
@@ -81,7 +101,7 @@ class ModelStock
   //  Obtener el stock actual de un producto 
   public static function mdlObtenerStockActualProducto($tabla, $codProducto, $codTienda)
   {
-    $statement = Conexion::conn()->prepare("SELECT tba_stock.IdStock, tba_stock.IdProducto, tba_stock.CantidadIngresos, tba_stock.CantidadSalidas, tba_stock.CantidadActual FROM $tabla WHERE tba_stock.IdTienda = $codTienda and tba_stock.IdProducto = $codProducto");
+    $statement = Conexion::conn()->prepare("SELECT tba_stock.IdStock, tba_stock.IdProducto, tba_stock.CantidadIngresos, tba_stock.CantidadSalidas, tba_stock.CantidadActual, tba_stock.PrecioUnitario FROM $tabla WHERE tba_stock.IdTienda = $codTienda and tba_stock.IdProducto = $codProducto");
     $statement -> execute();
     return $statement -> fetch();
   }

@@ -11,7 +11,7 @@
  Target Server Version : 100428
  File Encoding         : 65001
 
- Date: 12/07/2023 13:23:46
+ Date: 13/07/2023 17:41:22
 */
 
 SET NAMES utf8mb4;
@@ -55,7 +55,7 @@ CREATE TABLE `tba_detallemovimiento`  (
   INDEX `tba_detallemovimiento_fkProducto`(`IdProducto`) USING BTREE,
   CONSTRAINT `tba_detallemovimiento_fkMovimiento` FOREIGN KEY (`IdMovimiento`) REFERENCES `tba_movimiento` (`IdMovimiento`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_detallemovimiento_fkProducto` FOREIGN KEY (`IdProducto`) REFERENCES `tba_producto` (`IdProducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_detallemovimiento
@@ -75,6 +75,8 @@ INSERT INTO `tba_detallemovimiento` VALUES (12, 21, 2, 3, 123.00, 369.00, '2023-
 INSERT INTO `tba_detallemovimiento` VALUES (13, 22, 1, 4, 150.00, 600.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
 INSERT INTO `tba_detallemovimiento` VALUES (14, 23, 1, 5, 150.00, 750.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
 INSERT INTO `tba_detallemovimiento` VALUES (15, 23, 2, 5, 123.00, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_detallemovimiento` VALUES (16, 24, 2, 8, 123.00, 984.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
+INSERT INTO `tba_detallemovimiento` VALUES (17, 25, 1, 8, 150.00, 1200.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_movimiento
@@ -86,7 +88,8 @@ CREATE TABLE `tba_movimiento`  (
   `IdTienda` int NOT NULL,
   `IdUsuario` int NOT NULL,
   `NumeroDocumento` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `NombreProveedor` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `NombreProveedor` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `NombreCliente` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   `SubTotal` decimal(10, 2) NULL DEFAULT NULL,
   `IGV` decimal(10, 2) NULL DEFAULT NULL,
   `Total` decimal(10, 2) NOT NULL,
@@ -99,31 +102,33 @@ CREATE TABLE `tba_movimiento`  (
   CONSTRAINT `tba_movimiento_fkTienda` FOREIGN KEY (`IdTienda`) REFERENCES `tba_tienda` (`IdTienda`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_movimiento_fkTipoMovimiento` FOREIGN KEY (`IdTipoMovimiento`) REFERENCES `tba_tipomovimiento` (`IdTipoMovimiento`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_movimiento_fkUsuario` FOREIGN KEY (`IdUsuario`) REFERENCES `tba_usuario` (`IdUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_movimiento
 -- ----------------------------
-INSERT INTO `tba_movimiento` VALUES (4, 1, 1, 1, '001-0001', 'Don Pedro', 100.00, 18.00, 118.00, '2023-07-18 17:20:29', '2023-07-18 17:20:32');
-INSERT INTO `tba_movimiento` VALUES (5, 1, 1, 1, '001-002121', 'Don Jose', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (6, 1, 1, 1, '001-00212133', 'Don Mario', NULL, NULL, 492.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (7, 1, 1, 1, '001-002555', 'Don Mario', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (8, 1, 1, 1, '001-6666', 'Don Marioa', NULL, NULL, 738.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (9, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (10, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (11, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (12, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (13, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (14, 1, 1, 1, '001-1231231', 'Don Carlos', NULL, NULL, 246.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (15, 1, 1, 1, '001-1231231', 'Don Carlos', NULL, NULL, 246.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (16, 1, 1, 1, '001-2345234', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (17, 1, 1, 1, '001-0025551231', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (18, 1, 1, 1, '001-0025551231', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (19, 1, 1, 1, '001-6666', 'Don Carlos', NULL, NULL, 2829.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (20, 1, 1, 1, '001-00212133123', 'Don Carlos', NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (21, 1, 1, 1, '001-99991231', 'Don Carlos', NULL, NULL, 369.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (22, 1, 1, 1, '001-9999', 'Don Mario', NULL, NULL, 600.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_movimiento` VALUES (23, 1, 1, 1, '001-6666', 'Don Carlos', NULL, NULL, 1365.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (4, 1, 1, 1, '001-0001', 'Don Pedro', NULL, 100.00, 18.00, 118.00, '2023-07-18 17:20:29', '2023-07-18 17:20:32');
+INSERT INTO `tba_movimiento` VALUES (5, 1, 1, 1, '001-002121', 'Don Jose', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (6, 1, 1, 1, '001-00212133', 'Don Mario', NULL, NULL, NULL, 492.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (7, 1, 1, 1, '001-002555', 'Don Mario', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (8, 1, 1, 1, '001-6666', 'Don Marioa', NULL, NULL, NULL, 738.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (9, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (10, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (11, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (12, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (13, 1, 1, 1, '001-9999', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (14, 1, 1, 1, '001-1231231', 'Don Carlos', NULL, NULL, NULL, 246.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (15, 1, 1, 1, '001-1231231', 'Don Carlos', NULL, NULL, NULL, 246.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (16, 1, 1, 1, '001-2345234', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (17, 1, 1, 1, '001-0025551231', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (18, 1, 1, 1, '001-0025551231', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (19, 1, 1, 1, '001-6666', 'Don Carlos', NULL, NULL, NULL, 2829.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (20, 1, 1, 1, '001-00212133123', 'Don Carlos', NULL, NULL, NULL, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (21, 1, 1, 1, '001-99991231', 'Don Carlos', NULL, NULL, NULL, 369.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (22, 1, 1, 1, '001-9999', 'Don Mario', NULL, NULL, NULL, 600.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (23, 1, 1, 1, '001-6666', 'Don Carlos', NULL, NULL, NULL, 1365.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (24, 2, 1, 1, '001-45645', NULL, 'Carlos', NULL, NULL, 984.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (25, 1, 3, 1, '001-9999', 'Don Jose', NULL, NULL, NULL, 0.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_perfilusuario
@@ -188,13 +193,15 @@ CREATE TABLE `tba_stock`  (
   INDEX `tba_stock_fkProducto`(`IdProducto`) USING BTREE,
   CONSTRAINT `tba_stock_fkProducto` FOREIGN KEY (`IdProducto`) REFERENCES `tba_producto` (`IdProducto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_stock_fkTienda` FOREIGN KEY (`IdTienda`) REFERENCES `tba_tienda` (`IdTienda`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_stock
 -- ----------------------------
-INSERT INTO `tba_stock` VALUES (1, 1, 2, 58, 0, 58, 123.00, 7134.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
-INSERT INTO `tba_stock` VALUES (2, 1, 1, 9, 0, 9, 150.00, 1350.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
+INSERT INTO `tba_stock` VALUES (1, 1, 2, 53, 8, 45, 123.00, 984.00, '2023-07-12 00:00:00', '2023-07-14 00:00:00');
+INSERT INTO `tba_stock` VALUES (2, 1, 1, 4, 0, 4, 150.00, 1350.00, '2023-07-12 00:00:00', '2023-07-14 00:00:00');
+INSERT INTO `tba_stock` VALUES (3, 3, 1, 12, 0, 12, 150.00, 1800.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
+INSERT INTO `tba_stock` VALUES (4, 3, 2, 3, 0, 3, 123.00, 369.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_tienda
@@ -253,6 +260,6 @@ CREATE TABLE `tba_usuario`  (
 -- ----------------------------
 -- Records of tba_usuario
 -- ----------------------------
-INSERT INTO `tba_usuario` VALUES (1, 1, 'Administrador', 'admin@gmail.com', '$2a$07$usesomesillystringforeh6tvwDNOAiEn9PYXfY79K3vDiKj6Ib6', 987654321, '2023-07-08', '2023-07-08', '2023-07-12 10:19:14');
+INSERT INTO `tba_usuario` VALUES (1, 1, 'Administrador', 'admin@gmail.com', '$2a$07$usesomesillystringforeh6tvwDNOAiEn9PYXfY79K3vDiKj6Ib6', 987654321, '2023-07-08', '2023-07-08', '2023-07-13 15:10:09');
 
 SET FOREIGN_KEY_CHECKS = 1;

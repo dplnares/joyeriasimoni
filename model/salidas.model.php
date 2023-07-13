@@ -54,4 +54,12 @@ class ModelSalidas
       return "error";
     }
   }
+
+  //  Mostrar el detalle de la salida
+  public static function mdlMostrarDetalleSalida($tabla, $codMovimiento)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento, tba_detallemovimiento.PrecioUnitario, tba_detallemovimiento.ParcialTotal, tba_producto.DescripcionProducto FROM $tabla INNER JOIN tba_producto ON tba_detallemovimiento.IdProducto = tba_producto.IdProducto WHERE tba_detallemovimiento.IdMovimiento = $codMovimiento");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
 }

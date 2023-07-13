@@ -124,9 +124,9 @@
                             <td>'.$value["Total"].'</td>
                             <td>'.$value["FechaCreacion"].'</td>
                             <td>
-                              <button class="btn btn-success btnVisualizarIngreso" codIngreso="'.$value["IdMovimiento"].'"><i class="fa-solid fa-search"></i></button>
+                              <button class="btn btn-success btnVisualizarIngreso" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalVisualizarIngreso"><i class="fa-solid fa-search"></i></button>
                               <button class="btn btn-warning btnEditarIngreso" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalEditarTienda"><i class="fa-solid fa-pencil"></i></button>
-                              <button class="btn btn-danger btnEliminarIngreso" codIngreso="'.$value["IdMovimiento"].'"><i class="fa-solid fa-trash"></i></button>
+                              <button class="btn btn-danger btnEliminarIngreso" codIngreso="'.$value["IdMovimiento"].'" codTienda="'.$_GET["codTienda"].'"><i class="fa-solid fa-trash"></i></button>
                             </td> 
                           </tr>';
                         }
@@ -142,3 +142,40 @@
           <?php
             }
           ?>
+
+<!-- Modal Visualizar Ingreso -->
+<div class="modal fade lg" id="modalVisualizarIngreso" tabindex="-1" aria-labelledby="modalVisualizarIngreso" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="staticBackdropLabel">Visualizar Ingreso</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="container-fluid">
+          <div class="row" style="font-weight: bold">
+            <div class="col-md-5">Descripción</div>
+            <div class="col-md-2">Cantidad</div>
+            <div class="col-md-2">P. U.</div>
+            <div class="col-md-3">Parcial</div>
+          </div>
+
+          <div class="form-group row nuevoDetalleIngreso">
+            
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<?php
+  $eliminarIngreso = new ControllerIngresos();
+  $eliminarIngreso -> ctrEliminarIngreso();
+?>

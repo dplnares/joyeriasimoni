@@ -39,15 +39,15 @@
                   {
                     echo
                     '<tr>
-                        <td>'.($key + 1).'</td>
-                        <td>'.$value["NombreUsuario"].'</td>
-                        <td>'.$value["CorreoUsuario"].'</td>
-                        <td>'.$value["NombrePerfil"].'</td>
-                        <td>
-                          <button class="btn btn-warning btnEditarUsuario" codUsuario="'.$value["IdUsuario"].'" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">Editar <i class="fa-solid fa-pencil"></i></button>
-                          <button class="btn btn-danger btnEliminarUsuario" codUsuario="'.$value["IdUsuario"].'">Eliminar <i class="fa-solid fa-trash"></i></button>
-                        </td>
-                      </tr>';
+                      <td>'.($key + 1).'</td>
+                      <td>'.$value["NombreUsuario"].'</td>
+                      <td>'.$value["CorreoUsuario"].'</td>
+                      <td>'.$value["NombrePerfil"].'</td>
+                      <td>
+                        <button class="btn btn-warning btnEditarUsuario" codUsuario="'.$value["IdUsuario"].'" data-bs-toggle="modal" data-bs-target="#modalEditarUsuario">Editar <i class="fa-solid fa-pencil"></i></button>
+                        <button class="btn btn-danger btnEliminarUsuario" codUsuario="'.$value["IdUsuario"].'">Eliminar <i class="fa-solid fa-trash"></i></button>
+                      </td>
+                    </tr>';
                   }
                   ?>
                 </tbody>

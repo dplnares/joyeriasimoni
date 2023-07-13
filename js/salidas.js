@@ -82,7 +82,7 @@ $(".tablaProductos").on("click", ".btnAgregarProductoSalida", function(){
       '</div>'
       );
       //listarProductosSalida();
-      //sumarListaProductos();
+      //sumarListaProductosSalida();
     } 
 	});
 });
@@ -100,7 +100,7 @@ $(".formularioSalida").on("change", "input.nuevacantidadProducto", function(){
       );
     }
     listarProductosSalida();
-    sumarListaProductos();
+    sumarListaProductosSalida();
 });
 
 //  Actualizar el valor del parcial segun la cantidad
@@ -115,7 +115,7 @@ $(".formularioSalida").on("change", "input.nuevacantidadProducto", function(){
   parcial.val(precioParcial.toFixed(2));
 
   listarProductosSalida();
-  sumarListaProductos();
+  sumarListaProductosSalida();
 });
 
 //  Quitar los producto del ingreso
@@ -128,7 +128,75 @@ $(".formularioSalida").on("click", "button.quitaProductoSalida", function(){
   $("button.recuperarBoton[idProducto='"+idProducto+"']").addClass('btn-primary btnAgregarProductoSalida');
 
   listarProductosSalida();
-  sumarListaProductos();
+  sumarListaProductosSalida();
+});
+
+//  Modal Visualizar detalle del movimiento
+$(".table").on("click", ".btnVisualizarSalida", function(){
+  
+  var codMovimientoVisualizarSalida = $(this).attr("codSalida");
+
+  var datos = new FormData();
+  datos.append("codMovimientoVisualizarSalida", codMovimientoVisualizarSalida);
+  $.ajax({
+    url:"ajax/movimientos.ajax.php",
+    method: "POST",
+    data: datos,
+    cache: false,
+    contentType: false,
+    processData: false,
+    dataType:"json",
+    success:function(respuesta)
+    {
+      function obtenerDetalleSalida(lista)
+      {
+        var descripcionProducto = lista["DescripcionProducto"];
+        var cantidadProducto = lista["CantidadMovimiento"];
+        var precioUnitario = lista["PrecioUnitario"];
+        var parcialMovimiento = lista["ParcialTotal"];
+        
+        $(".nuevoDetalleSalida").append(
+          '<div class="row" style="padding:5px 15px">'+
+            //  Descripcion
+            '<div class="col-md-5">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevoDetalleSalida" name="nuevoDetalleSalida" id="nuevoDetalleSalida" value="'+descripcionProducto+'" readonly>'+
+              '</div>'+
+            '</div>' +
+            //  Cantidad
+            '<div class="col-md-2">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevaCantidadSalida" name="nuevaCantidadSalida" id="nuevaCantidadSalida" value="'+cantidadProducto+'" readonly>'+
+              '</div>'+
+            '</div>' +
+            //  Precio Unitario
+            '<div class="col-md-2">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevoPrecioUSalida" name="nuevoPrecioUSalida" id="nuevoPrecioUSalida" value="'+precioUnitario+'" readonly>'+
+              '</div>'+
+            '</div>' +
+            //  Parcial Movimiento
+            '<div class="col-md-3">'+
+              '<div class="input-group">'+
+                '<input type="text" class="form-control nuevoPrecioParcialSalida" name="nuevoPrecioParcialSalida" id="nuevoPrecioParcialSalida" value="'+parcialMovimiento+'" readonly>'+
+              '</div>'+
+            '</div>' +
+          '</div>'
+        );
+      }
+      respuesta.forEach((lista) => obtenerDetalleSalida(lista));
+    } 
+	});
+});
+$('#modalVisualizarSalida').on('hidden.bs.modal', function () {
+  var elementos = document.querySelectorAll('#nuevoDetalleSalida').length;
+  for(i=0; i<elementos; i++)
+  {
+    document.getElementById("nuevoDetalleSalida").remove();
+    document.getElementById("nuevaCantidadSalida").remove();
+    document.getElementById("nuevoPrecioUSalida").remove();
+    document.getElementById("nuevoPrecioParcialSalida").remove();
+  }
 });
 
 
@@ -152,7 +220,7 @@ function listarProductosSalida()
   $("#listarProductosSalida").val(JSON.stringify(listarProductosSalida));
 }
 
-function sumarListaProductos()
+function sumarListaProductosSalida()
 {
   var precioItem = $(".nuevoParcialProducto");
   var arraySumaPrecio = []; 
@@ -184,5 +252,4 @@ function sumarListaProductos()
   //  $("#nuevoImpuestoIngreso").val(igv.toFixed(2));
   //  $("#nuevoTotalIngreso").val(total.toFixed(2));
   $("#nuevoTotalSalida").val(sumaTotalPrecio.toFixed(2));
-  
 }

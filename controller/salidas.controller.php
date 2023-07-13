@@ -153,4 +153,12 @@ class ControllerSalidas
       }
     }
   }
+
+  //  Mostrar el detalle de la salida
+  public static function ctrMostrarDetalleSalida($codSalidaVisualizar)
+  {
+    $tabla = "tba_detallemovimiento";
+    $respuesta = ModelSalidas::mdlMostrarDetalleSalida($tabla, $codSalidaVisualizar);
+    return $respuesta;
+  }
 }
