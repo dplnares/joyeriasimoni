@@ -141,4 +141,20 @@ class ModelStock
     $statement -> execute();
     return $statement -> fetchAll();
   }
+
+  //  Obtener el stock general de un recurso, si devuelve un valor
+  public static function mdlObtenerStockGeneral($campo,$valor)
+  {
+    if($campo == "nombreProducto")
+    {
+      $stmt = Conexion::conn()->prepare("SELECT tba_stock.IdTienda, tba_stock.IdProducto, tba_stock.CantidadIngresos, tba_stock.CantidadSalidas, tba_stock.CantidadActual, tba_stock.PrecioUnitario, tba_stock.PrecioTotal, tba_stock.FechaActualizacion, tba_producto.CodProducto, tba_producto.DescripcionProducto, tba_tienda.CodTienda, tba_tienda.NombreTienda FROM tba_stock INNER JOIN tba_producto ON tba_stock.IdProducto = tba_producto.IdProducto INNER JOIN tba_tienda ON tba_stock.IdTienda = tba_tienda.IdTienda WHERE tba_producto.DescripcionProducto like '%$valor%' ");
+    }
+    if($campo == "codigoProducto")
+    {
+      $stmt = Conexion::conn()->prepare("SELECT tba_stock.IdTienda, tba_stock.IdProducto, tba_stock.CantidadIngresos, tba_stock.CantidadSalidas, tba_stock.CantidadActual, tba_stock.PrecioUnitario, tba_stock.PrecioTotal, tba_stock.FechaActualizacion, tba_producto.CodProducto, tba_producto.DescripcionProducto, tba_tienda.CodTienda, tba_tienda.NombreTienda FROM tba_stock INNER JOIN tba_producto ON tba_stock.IdProducto = tba_producto.IdProducto INNER JOIN tba_tienda ON tba_stock.IdTienda = tba_tienda.IdTienda WHERE tba_producto.CodProducto like '$valor' ");
+    }
+    $stmt -> execute();
+    return $stmt -> fetchAll();
+  }
+  
 }

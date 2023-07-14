@@ -161,4 +161,11 @@ class ControllerStock
     $respuesta = ModelStock::mdlObtenerReporteTienda($tabla, $codTienda);
     return $respuesta;
   }
+
+  public static function ctrMostrarStockPorCampo($campoBusqueda, $valorBuscado)
+  {
+    $tabla = "tba_stock";
+    $respuesta = ModelStock::mdlObtenerStockGeneral($campoBusqueda, $valorBuscado);
+    return $respuesta;
+  }
 }
