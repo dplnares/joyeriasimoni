@@ -199,6 +199,26 @@ $('#modalVisualizarSalida').on('hidden.bs.modal', function () {
   }
 });
 
+//  Alerta para eliminar un ingreso
+$(".table").on("click", ".btnEliminarSalida", function () {
+  var codSalida = $(this).attr("codSalida");
+  var codTienda = $(this).attr("codTienda");
+  swal.fire({
+    title: '¿Está seguro de borrar el registro?',
+    text: "¡No podrá revertir el cambio!",
+    type: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText: 'Cancelar',
+    confirmButtonText: 'Si, borrar salida!'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location = "index.php?ruta=salidas&codSalida="+codSalida+"&codTienda="+codTienda;
+    }
+  });
+});
+
 
 //  FUNCIONES PARA SUMAR Y LISTAR LOS PRODUCTOS
 function listarProductosSalida()

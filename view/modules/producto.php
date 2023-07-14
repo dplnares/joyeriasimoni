@@ -107,13 +107,13 @@
           <!-- Precio Producto -->
           <div class="form-group">
             <label for="precioProducto" class="col-form-label">Precio Unitario:</label>
-            <input type="number" min="0" class="form-control" id="precioProducto" name="precioProducto" required>
+            <input type="number" min="0" step="0.01" class="form-control" id="precioProducto" name="precioProducto" required>
           </div>
 
           <!-- Peso Producto -->
           <div class="form-group">
             <label for="pesoProducto" class="col-form-label">Peso Promedio:</label>
-            <input type="number" min="0" class="form-control" id="pesoProducto" name="pesoProducto" required>
+            <input type="number" min="0" step="0.01" class="form-control" id="pesoProducto" name="pesoProducto" required>
           </div>
 
           <div class="modal-footer">
@@ -172,17 +172,17 @@
           <!-- Precio Producto -->
           <div class="form-group">
             <label for="editarPrecio" class="col-form-label">Precio Unitario:</label>
-            <input type="number" min="0" class="form-control" id="editarPrecio" name="editarPrecio" required>
+            <input type="number" min="0" step="0.01" class="form-control" id="editarPrecio" name="editarPrecio" required>
           </div>
 
           <!-- Peso Producto -->
           <div class="form-group">
             <label for="editarPeso" class="col-form-label">Peso Promedio:</label>
-            <input type="number" min="0" class="form-control" id="editarPeso" name="editarPeso" required>
+            <input type="number" min="0" step="0.01" class="form-control" id="editarPeso" name="editarPeso" required>
           </div>
 
           <div class="modal-footer">
-          <input type="hidden" id="codProducto" name="codProducto" class="codProducto">
+            <input type="hidden" id="codProducto" name="codProducto" class="codProducto">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Editar Producto</button>
           </div>

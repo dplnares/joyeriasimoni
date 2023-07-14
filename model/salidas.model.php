@@ -62,4 +62,41 @@ class ModelSalidas
     $statement -> execute();
     return $statement -> fetchAll();
   }
+
+  //  Obtener lista que se va a eliminar
+  public static function mdlObtenerListaEliminar($tabla, $codSalida)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento FROM $tabla WHERE tba_detallemovimiento.IdMovimiento = $codSalida");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
+
+  
+  //  Eliminar el detalle de la salida 
+  public static function mdlEliminarDetalleSalida($tabla, $codSalida)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $tabla WHERE IdMovimiento = $codSalida");
+    if ($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+  
+  //  Eliminar cabecera del registro seleccionado
+  public static function mdlEliminarCabeceraSalida($tabla, $codSalida)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $tabla WHERE IdMovimiento = $codSalida");
+    if ($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
 }

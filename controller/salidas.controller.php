@@ -161,4 +161,101 @@ class ControllerSalidas
     $respuesta = ModelSalidas::mdlMostrarDetalleSalida($tabla, $codSalidaVisualizar);
     return $respuesta;
   }
+
+  //  Eliminar una salida
+  public static function ctrEliminarSalida()
+  {
+    if (isset($_GET["codSalida"]))
+    {
+      $tablaMovimientos = "tba_movimiento";
+      $tablaDetalle = "tba_detallemovimiento";
+
+      $codSalida = $_GET["codSalida"];
+      $codTienda = $_GET["codTienda"];
+
+      $listaDetalleSalida = self::ctrObtenerListaEliminar($codSalida);
+      
+      //  Eliminar la salida sin ningun problema de negativos, al eliminar el registro solo se añadirá las cantidades que fueron egresadas por el registro
+      $eliminarSalida = ControllerStock::ctrActualizarEliminacionSalida($codTienda, $listaDetalleSalida);
+
+      //  Si se hace el update en el stock de los recursos eliminados, se procederá a eliminar el detalle de la salida y posteriormente la cabecera
+      if($eliminarSalida == "ok")
+      {
+        $respuestaEliminacionDetalle = ModelSalidas::mdlEliminarDetalleSalida($tablaDetalle, $codSalida);
+        if($respuestaEliminacionDetalle == "ok")
+        {
+          $respuestaEliminacionCabecera = ModelSalidas::mdlEliminarCabeceraSalida($tablaMovimientos, $codSalida);
+
+          if($respuestaEliminacionCabecera == "ok")
+          {
+            echo '
+              <script>
+                Swal.fire({
+                  icon: "success",
+                  title: "Correcto",
+                  text: "¡La salida se eliminó correctamente!",
+                }).then(function(result){
+                  if(result.value){
+                    window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
+                  }
+                });
+              </script>';
+          }
+          else
+          {
+            echo '
+              <script>
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "La cabecera de la salida no fue eliminada correctamente",
+                }).then(function(result){
+                  if(result.value){
+                    window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
+                  }
+                });
+              </script>';
+          }
+        }
+        else
+        {
+          echo '
+            <script>
+              Swal.fire({
+                icon: "error",
+                title: "Error",
+                text: El detalle de la salida no fue eliminado correctamente",
+              }).then(function(result){
+                if(result.value){
+                  window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
+                }
+              });
+            </script>';
+        }
+      }
+      else
+      {
+        echo '
+          <script>
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "El stock no fue actualizado correctamente",
+            }).then(function(result){
+              if(result.value){
+                window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
+              }
+            });
+          </script>';
+      }
+    }
+  }
+
+  //  Obtener la lista de reucrsos que se va a eliminar
+  public static function ctrObtenerListaEliminar($codSalida)
+  {
+    $tabla = "tba_detallemovimiento";
+    $respuesta = ModelSalidas::mdlObtenerListaEliminar($tabla, $codSalida);
+    return $respuesta;
+  }
 }

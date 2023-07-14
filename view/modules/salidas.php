@@ -126,7 +126,7 @@
                             <td>
                               <button class="btn btn-success btnVisualizarSalida" codSalida="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalVisualizarSalida"><i class="fa-solid fa-search"></i></button>
                               <button class="btn btn-warning btnEditarSalida" codSalida="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalEditarTienda"><i class="fa-solid fa-pencil"></i></button>
-                              <button class="btn btn-danger btnEliminarSalida" codSalida="'.$value["IdMovimiento"].'"><i class="fa-solid fa-trash"></i></button>
+                              <button class="btn btn-danger btnEliminarSalida" codSalida="'.$value["IdMovimiento"].'" codTienda="'.$_GET["codTienda"].'"><i class="fa-solid fa-trash"></i></button>
                             </td> 
                           </tr>';
                         }
@@ -176,6 +176,6 @@
 </div>
 
 <?php
-  // $eliminarIngreso = new ControllerIngresos();
-  // $eliminarIngreso -> ctrEliminarIngreso();
+  $eliminarIngreso = new ControllerSalidas();
+  $eliminarIngreso -> ctrEliminarSalida();
 ?>

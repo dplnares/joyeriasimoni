@@ -122,7 +122,7 @@
 
             <!-- Nombre Categoria -->
             <div class="form-group">
-              <label for="editarNombre" class="col-form-label">Nombre Categoráa:</label>
+              <label for="editarNombre" class="col-form-label">Nombre Categoría:</label>
               <input type="text" class="form-control" id="editarNombre" name="editarNombre">
             </div>
 

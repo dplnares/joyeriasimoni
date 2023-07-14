@@ -161,7 +161,7 @@ class ControllerIngresos
       {
         $eliminarIngresos = ControllerStock::ctrActualizarEliminacionIngreso($codTienda, $listaDetalleIngreso);
 
-        //  Si se hacer el update en el stock de los recursos eliminados, se procederá a eliminar el detalle del ingreso y posteriormente el detalle del mismo
+        //  Si se hace el update en el stock de los recursos eliminados, se procederá a eliminar el detalle del ingreso y posteriormente la cabecera del mismo
         if($eliminarIngresos == "ok")
         {
           $respuestaEliminacionDetalle = ModelIngresos::mdlEliminarDetalleIngreso($tablaDetalle, $codIngreso);
@@ -180,7 +180,7 @@ class ControllerIngresos
                     text: "¡El ingreso se eliminó correctamente!",
                   }).then(function(result){
                     if(result.value){
-                      window.location = "usuario";
+                      window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
                     }
                   });
                 </script>';
@@ -273,7 +273,7 @@ class ControllerIngresos
     return $respuesta;
   }
 
-  //  Obtener el recurso que se va a eliminar del ingreso
+  //  Obtener la lista de reucrsos que se va a eliminar
   public static function ctrObtenerListaEliminar($codIngreso)
   {
     $tabla = "tba_detallemovimiento";

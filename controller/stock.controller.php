@@ -14,7 +14,7 @@ class ControllerStock
     }
   }
 
-  //  Actualizar las cantidades del stock por eliminación de un producto
+  //  Actualizar las cantidades del stock por eliminación de una lista de ingresos
   public static function ctrActualizarEliminacionIngreso($codTienda, $listaDetalleIngreso)
   {
     $respuesta = "ok";
@@ -32,6 +32,37 @@ class ControllerStock
         "FechaActualizacion" => date("Y-m-d")
       );
       $respuesta = self::ctrActualizarIngresoEliminado($datosStockActual["IdStock"], $datosStockUpdate);
+
+      if($respuesta == "ok")
+      {
+        continue;
+      }
+      else
+      {
+        $respuesta == "error";
+      }
+    }
+    return $respuesta;
+  }
+
+  //  Actualizar las cantidades del stock por eliminación de una lista de salidas
+  public static function ctrActualizarEliminacionSalida($codTienda, $listaDetalleSalida)
+  {
+    $respuesta = "ok";
+    foreach($listaDetalleSalida as $value)
+    {
+      $datosStockActual = self::ctrObtenerStockActualProducto($value["IdProducto"], $codTienda);
+      $nuevaCantidadActual = $datosStockActual["CantidadActual"] + $value["CantidadMovimiento"];
+      $nuevaCantidadSalidas = $datosStockActual["CantidadSalidas"] - $value["CantidadMovimiento"];
+      $nuevoParcial = $datosStockActual["PrecioUnitario"] * $nuevaCantidadActual;
+
+      $datosStockUpdate = array(
+        "CantidadSalidas" => $nuevaCantidadSalidas,
+        "CantidadActual" => $nuevaCantidadActual,
+        "PrecioTotal" => $nuevoParcial,
+        "FechaActualizacion" => date("Y-m-d")
+      );
+      $respuesta = self::ctrActualizarSalidaEliminado($datosStockActual["IdStock"], $datosStockUpdate);
 
       if($respuesta == "ok")
       {
@@ -87,6 +118,14 @@ class ControllerStock
   {
     $tabla = "tba_stock";
     $respuesta = ModelStock::mdlUpdateStockIngresoEliminado($tabla, $codStock, $datosStockUpdate);
+    return $respuesta;
+  }
+
+  //  Actualizar el stock luego de eliminarse una salida
+  public static function ctrActualizarSalidaEliminado($codStock, $datosStockUpdate)
+  {
+    $tabla = "tba_stock";
+    $respuesta = ModelStock::mdlUpdateStockSalidaEliminado($tabla, $codStock, $datosStockUpdate);
     return $respuesta;
   }
 
