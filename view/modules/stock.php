@@ -86,8 +86,7 @@
             {
             ?>
               <div class="d-flex m-2">
-                <a href="vistas/modulos/descargar-reporte.php?reportStockTienda=<?php echo $_GET["codTienda"] ?>"></a>
-                <button type="button" class="btn btn-success">Descargar Excel</button>
+                <a href="view/modules/descargar-reporte.php?reporteStockTienda=<?php echo $_GET["codTienda"] ?>"><button type="button" class="btn btn-success">Descargar Excel</button></a>
               </div>
 
               <div class="card mb-4">

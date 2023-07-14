@@ -113,4 +113,12 @@ class ModelStock
     $statement -> execute();
     return $statement -> fetchAll();
   }
+
+  //  Obtener reporte por tienda
+  public static function mdlObtenerReporteTienda($tabla, $codTienda)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_stock.IdProducto, tba_stock.CantidadActual, tba_stock.CantidadIngresos, tba_stock.CantidadSalidas, tba_stock.CantidadActual, tba_stock.PrecioUnitario, tba_stock.PrecioTotal, tba_stock.FechaActualizacion, tba_producto.DescripcionProducto, tba_producto.CodProducto FROM $tabla INNER JOIN tba_producto ON tba_stock.IdProducto = tba_producto.IdProducto WHERE tba_stock.IdTienda = $codTienda");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
 }

@@ -114,4 +114,12 @@ class ControllerStock
     $respuesta = ModelStock::mdlObtenerProductosEnStock($tabla, $codTienda);
     return $respuesta;
   }
+
+  //  Mostrar datos del reporte
+  public static function ctrMostrarReporte($codTienda)
+  {
+    $tabla = "tba_stock";
+    $respuesta = ModelStock::mdlObtenerReporteTienda($tabla, $codTienda);
+    return $respuesta;
+  }
 }

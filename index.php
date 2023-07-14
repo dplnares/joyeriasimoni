@@ -1,7 +1,7 @@
 <?php 
 
 //  Librerias
-//  require_once "library/PhpSpreadsheet\src\PhpSpreadsheet\Writer\Xlsx";
+require_once "PHPExcel/Classes/PHPExcel.php";
 
 //  Controllers
 require_once "controller/plantilla.controller.php";
@@ -12,6 +12,7 @@ require_once "controller/producto.controller.php";
 require_once "controller/stock.controller.php";
 require_once "controller/ingresos.controller.php";
 require_once "controller/salidas.controller.php";
+require_once "controller/reportes.controller.php";
 
 //  Models
 require_once "model/usuarios.model.php";
