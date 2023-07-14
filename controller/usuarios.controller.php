@@ -5,7 +5,7 @@ class ControllerUsuarios
   //  Verificar los valores para iniciar sesión  
   static public function ctrIniciarSesion()
   {
-    if (isset($_POST["inputEmail"]))
+    if (isset($_POST["inputEmail"]) && $_POST["inputEmail"] != "" && $_POST["inputEmail"] != null && $_POST["inputPassword"] != "" && $_POST["inputPassword"] != null)
     {
       $passwordCrypt = crypt($_POST["inputPassword"], '$2a$07$usesomesillystringfore2uDLvp1Ii2e./U9C8sBjqp8I90dH6hi');
       $email = $_POST["inputEmail"];
@@ -41,7 +41,7 @@ class ControllerUsuarios
       }
       else
       {
-        echo '<br><div class="alert alert-danger">Error en los datos ingresados, vuelve a intentarlo</div>';
+        echo '<br><div class="alert alert-danger" role="alert">Error en los datos ingresados, vuelve a intentarlo</div>';
       }
     }
   }

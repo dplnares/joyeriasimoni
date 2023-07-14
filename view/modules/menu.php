@@ -2,7 +2,7 @@
 <!-- Menu de todos los usuarios en general -->
 <div class="sb-sidenav-menu-heading">Inicio</div>
 <a class="nav-link" href="home">
-  <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+  <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
   Inicio
 </a>
 
@@ -16,14 +16,14 @@
   <!-- Usuarios -->
   <div class="sb-sidenav-menu-heading">Usuarios</div>
   <a class="nav-link" href="usuario">
-    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+    <div class="sb-nav-link-icon"><i class="fas fa-user"></i></div>
     Administrar Usuarios
   </a>
   
   <!-- Catalogo -->
   <div class="sb-sidenav-menu-heading">Catálogo</div>
   <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listaCatalogo" aria-expanded="false" aria-controls="collapseLayouts">
-    <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+    <div class="sb-nav-link-icon"><i class="fas fa-list"></i></div>
     Catálogo
     <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
   </a>
@@ -41,7 +41,7 @@
 <!-- Movimientos -->
 <div class="sb-sidenav-menu-heading">Movimientos</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listaMovimientos" aria-expanded="false" aria-controls="collapseLayouts">
-  <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+  <div class="sb-nav-link-icon"><i class="fas fa-exchange"></i></div>
   Movimientos
   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 </a>
@@ -55,7 +55,7 @@
 <!-- Stock -->
 <div class="sb-sidenav-menu-heading">Stock</div>
 <a class="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#listaStock" aria-expanded="false" aria-controls="collapseLayouts">
-  <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+  <div class="sb-nav-link-icon"><i class="fas fa-search"></i></div>
   Stock
   <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
 </a>
