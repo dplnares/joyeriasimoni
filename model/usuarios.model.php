@@ -81,6 +81,7 @@ class ModelUsuarios
     $statement -> execute();
     return $statement -> fetch();
   }
+  
   //  Mostrar todos los usuarios
   static public function mdlMostrarUsuarios($tabla)
   {

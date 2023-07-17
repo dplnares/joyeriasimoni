@@ -7,15 +7,37 @@ class ModelIngresos
   //  Agregar un nuevo ingreso
   public static function mdlIngresarCabeceraIngreso($tabla, $datosCabecera)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $tabla (IdTipoMovimiento, IdTienda, IdUsuario, NumeroDocumento, NombreProveedor, Total, FechaCreacion, FechaActualizacion) VALUES(:IdTipoMovimiento, :IdTienda, :IdUsuario, :NumeroDocumento, :NombreProveedor, :Total, :FechaCreacion, :FechaActualizacion)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $tabla (IdTipoMovimiento, IdTienda, CreadoUsuario, ActualizaUsuario, NumeroDocumento, NombreProveedor, Total, FechaIngreso, FechaCreacion, FechaActualizacion) VALUES(:IdTipoMovimiento, :IdTienda, :CreadoUsuario, :ActualizaUsuario, :NumeroDocumento, :NombreProveedor, :Total, :FechaIngreso, :FechaCreacion, :FechaActualizacion)");
     $statement -> bindParam(":IdTipoMovimiento", $datosCabecera["IdTipoMovimiento"], PDO::PARAM_STR);
     $statement -> bindParam(":IdTienda", $datosCabecera["IdTienda"], PDO::PARAM_STR);
-    $statement -> bindParam(":IdUsuario", $datosCabecera["IdUsuario"], PDO::PARAM_STR);
+    $statement -> bindParam(":CreadoUsuario", $datosCabecera["CreadoUsuario"], PDO::PARAM_STR);
+    $statement -> bindParam(":ActualizaUsuario", $datosCabecera["ActualizaUsuario"], PDO::PARAM_STR);
     $statement -> bindParam(":NumeroDocumento", $datosCabecera["NumeroDocumento"], PDO::PARAM_STR);
     $statement -> bindParam(":NombreProveedor", $datosCabecera["NombreProveedor"], PDO::PARAM_STR);
     $statement -> bindParam(":Total", $datosCabecera["Total"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaIngreso", $datosCabecera["FechaIngreso"], PDO::PARAM_STR);
     $statement -> bindParam(":FechaCreacion", $datosCabecera["FechaCreacion"], PDO::PARAM_STR);
     $statement -> bindParam(":FechaActualizacion", $datosCabecera["FechaActualizacion"], PDO::PARAM_STR);
+    if($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+
+  //  Editar la cabecera de un ingreso
+  public static function mdlEditarCabeceraIngreso($tabla, $codIngreso, $datosUpdateCabecera)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $tabla SET ActualizaUsuario=:ActualizaUsuario, NumeroDocumento=:NumeroDocumento, NombreProveedor=:NombreProveedor, Total=:Total, FechaIngreso=:FechaIngreso, FechaActualizacion=:FechaActualizacion WHERE tba_movimiento.IdMovimiento = $codIngreso");
+    $statement -> bindParam(":ActualizaUsuario", $datosUpdateCabecera["ActualizaUsuario"], PDO::PARAM_STR);
+    $statement -> bindParam(":NumeroDocumento", $datosUpdateCabecera["NumeroDocumento"], PDO::PARAM_STR);
+    $statement -> bindParam(":NombreProveedor", $datosUpdateCabecera["NombreProveedor"], PDO::PARAM_STR);
+    $statement -> bindParam(":Total", $datosUpdateCabecera["Total"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaIngreso", $datosUpdateCabecera["FechaIngreso"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosUpdateCabecera["FechaActualizacion"], PDO::PARAM_STR);
     if($statement -> execute())
     {
       return "ok";
@@ -58,7 +80,7 @@ class ModelIngresos
   //  Mostrar todos los ingresos de una tienda
   public static function mdlMostrarIngresosTienda($tabla, $codTienda, $tipoMovimiento)
   {
-    $statement = Conexion::conn()->prepare("SELECT tba_movimiento.IdMovimiento, tba_movimiento.IdTipoMovimiento, tba_movimiento.IdTienda, tba_movimiento.IdUsuario, tba_movimiento.NumeroDocumento, tba_movimiento.NombreProveedor, tba_movimiento.Total, tba_movimiento.FechaCreacion FROM $tabla WHERE tba_movimiento.IdTienda = $codTienda AND tba_movimiento.IdTipoMovimiento = $tipoMovimiento");
+    $statement = Conexion::conn()->prepare("SELECT tba_movimiento.IdMovimiento, tba_movimiento.IdTipoMovimiento, tba_movimiento.IdTienda, tba_movimiento.CreadoUsuario, tba_movimiento.NumeroDocumento, tba_movimiento.NombreProveedor, tba_movimiento.Total, tba_movimiento.FechaCreacion FROM $tabla WHERE tba_movimiento.IdTienda = $codTienda AND tba_movimiento.IdTipoMovimiento = $tipoMovimiento");
     $statement -> execute();
     return $statement -> fetchAll();
   }
@@ -70,6 +92,14 @@ class ModelIngresos
     $statement -> execute();
     return $statement -> fetchAll();
   }
+  
+  //  Mostrar detalle del movimiento registrado
+  public static function mdlOBtenerDetalleIngresoEditar($tabla, $codIngreso)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento, tba_detallemovimiento.PrecioUnitario, tba_detallemovimiento.ParcialTotal, tba_producto.DescripcionProducto, tba_producto.CodProducto, tba_producto.PesoProducto, tba_producto.PrecioUnitarioProducto FROM $tabla INNER JOIN tba_producto ON tba_detallemovimiento.IdProducto = tba_producto.IdProducto WHERE tba_detallemovimiento.IdMovimiento = $codIngreso");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
 
   //  Obtener lista que se va a eliminar
   public static function mdlObtenerListaEliminar($tabla, $codIngreso)
@@ -77,6 +107,14 @@ class ModelIngresos
     $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento FROM $tabla WHERE tba_detallemovimiento.IdMovimiento = $codIngreso");
     $statement -> execute();
     return $statement -> fetchAll();
+  }
+
+  //  Redirigir a la modificacion de un ingreso
+  public static function mdlObtenerCabeceraIngreso($tabla, $codIngreso)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_movimiento.IdMovimiento, tba_movimiento.IdTienda, tba_movimiento.CreadoUsuario, tba_movimiento.NumeroDocumento, tba_movimiento.NombreProveedor, tba_movimiento.Total, tba_movimiento.FechaCreacion, tba_tienda.NombreTienda FROM $tabla INNER JOIN tba_tienda ON tba_movimiento.IdTienda = tba_tienda.IdTienda WHERE tba_movimiento.IdMovimiento = $codIngreso");
+    $statement -> execute();
+    return $statement -> fetch();
   }
 
   //  Eliminar cabecera del registro seleccionado

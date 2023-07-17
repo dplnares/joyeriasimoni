@@ -11,7 +11,7 @@
  Target Server Version : 100428
  File Encoding         : 65001
 
- Date: 13/07/2023 17:41:22
+ Date: 14/07/2023 17:30:02
 */
 
 SET NAMES utf8mb4;
@@ -29,13 +29,14 @@ CREATE TABLE `tba_categoria`  (
   `FechaCreacion` datetime NOT NULL,
   `FechaActualizacion` datetime NOT NULL,
   PRIMARY KEY (`IdCategoria`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_categoria
 -- ----------------------------
 INSERT INTO `tba_categoria` VALUES (1, 'ANL', 'ANILLOS', 'ANILLOS DE TODO TIPO DE MATERIAL', '2023-07-10 10:28:29', '2023-07-10 10:28:33');
 INSERT INTO `tba_categoria` VALUES (2, 'PLS', 'PULSERAS', 'PULSERAS DE ORO', '2023-07-10 00:00:00', '2023-07-10 00:00:00');
+INSERT INTO `tba_categoria` VALUES (5, 'RLJ', 'Relojes', 'Relojes de todo tipo de material', '2023-07-14 00:00:00', '2023-07-14 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_detallemovimiento
@@ -55,7 +56,7 @@ CREATE TABLE `tba_detallemovimiento`  (
   INDEX `tba_detallemovimiento_fkProducto`(`IdProducto`) USING BTREE,
   CONSTRAINT `tba_detallemovimiento_fkMovimiento` FOREIGN KEY (`IdMovimiento`) REFERENCES `tba_movimiento` (`IdMovimiento`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_detallemovimiento_fkProducto` FOREIGN KEY (`IdProducto`) REFERENCES `tba_producto` (`IdProducto`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_detallemovimiento
@@ -77,6 +78,8 @@ INSERT INTO `tba_detallemovimiento` VALUES (14, 23, 1, 5, 150.00, 750.00, '2023-
 INSERT INTO `tba_detallemovimiento` VALUES (15, 23, 2, 5, 123.00, 615.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
 INSERT INTO `tba_detallemovimiento` VALUES (16, 24, 2, 8, 123.00, 984.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
 INSERT INTO `tba_detallemovimiento` VALUES (17, 25, 1, 8, 150.00, 1200.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
+INSERT INTO `tba_detallemovimiento` VALUES (23, 29, 3, 15, 99.99, 1499.85, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
+INSERT INTO `tba_detallemovimiento` VALUES (24, 30, 3, 3, 99.99, 299.97, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_movimiento
@@ -102,7 +105,7 @@ CREATE TABLE `tba_movimiento`  (
   CONSTRAINT `tba_movimiento_fkTienda` FOREIGN KEY (`IdTienda`) REFERENCES `tba_tienda` (`IdTienda`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_movimiento_fkTipoMovimiento` FOREIGN KEY (`IdTipoMovimiento`) REFERENCES `tba_tipomovimiento` (`IdTipoMovimiento`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_movimiento_fkUsuario` FOREIGN KEY (`IdUsuario`) REFERENCES `tba_usuario` (`IdUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_movimiento
@@ -129,6 +132,8 @@ INSERT INTO `tba_movimiento` VALUES (22, 1, 1, 1, '001-9999', 'Don Mario', NULL,
 INSERT INTO `tba_movimiento` VALUES (23, 1, 1, 1, '001-6666', 'Don Carlos', NULL, NULL, NULL, 1365.00, '2023-07-12 00:00:00', '2023-07-12 00:00:00');
 INSERT INTO `tba_movimiento` VALUES (24, 2, 1, 1, '001-45645', NULL, 'Carlos', NULL, NULL, 984.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
 INSERT INTO `tba_movimiento` VALUES (25, 1, 3, 1, '001-9999', 'Don Jose', NULL, NULL, NULL, 0.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (29, 1, 4, 1, '001-6666', 'Don Carlos', NULL, NULL, NULL, 1499.85, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
+INSERT INTO `tba_movimiento` VALUES (30, 2, 4, 1, '001-45645', NULL, 'Herbert', NULL, NULL, 299.97, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_perfilusuario
@@ -165,13 +170,14 @@ CREATE TABLE `tba_producto`  (
   INDEX `tba_producto_fkCategoria`(`IdCategoria`) USING BTREE,
   INDEX `tba_producto_fkUsuario`(`CreadoUsuario`) USING BTREE,
   CONSTRAINT `tba_producto_fkCategoria` FOREIGN KEY (`IdCategoria`) REFERENCES `tba_categoria` (`IdCategoria`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_producto
 -- ----------------------------
 INSERT INTO `tba_producto` VALUES (1, 1, 'AMBARRRR', 'ANILLO DE AMBAR', 150.00, 20.00, 1, 0, '2023-07-10 11:27:38', '2023-07-10 00:00:00');
-INSERT INTO `tba_producto` VALUES (2, 2, 'AAA', 'RELOJ X', 123.00, 1.00, 1, 12, '2023-07-10 00:00:00', '2023-07-10 00:00:00');
+INSERT INTO `tba_producto` VALUES (2, 5, 'AAA', 'RELOJ X', 123.00, 1.00, 1, 1, '2023-07-10 00:00:00', '2023-07-14 00:00:00');
+INSERT INTO `tba_producto` VALUES (3, 2, 'PLS-PLATA', 'Pulsera de plata', 99.99, 1.00, 1, 1, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_stock
@@ -193,15 +199,16 @@ CREATE TABLE `tba_stock`  (
   INDEX `tba_stock_fkProducto`(`IdProducto`) USING BTREE,
   CONSTRAINT `tba_stock_fkProducto` FOREIGN KEY (`IdProducto`) REFERENCES `tba_producto` (`IdProducto`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tba_stock_fkTienda` FOREIGN KEY (`IdTienda`) REFERENCES `tba_tienda` (`IdTienda`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_stock
 -- ----------------------------
-INSERT INTO `tba_stock` VALUES (1, 1, 2, 53, 8, 45, 123.00, 984.00, '2023-07-12 00:00:00', '2023-07-14 00:00:00');
+INSERT INTO `tba_stock` VALUES (1, 1, 2, 53, 28, 45, 123.00, 5535.00, '2023-07-12 00:00:00', '2023-07-14 00:00:00');
 INSERT INTO `tba_stock` VALUES (2, 1, 1, 4, 0, 4, 150.00, 1350.00, '2023-07-12 00:00:00', '2023-07-14 00:00:00');
 INSERT INTO `tba_stock` VALUES (3, 3, 1, 12, 0, 12, 150.00, 1800.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
 INSERT INTO `tba_stock` VALUES (4, 3, 2, 3, 0, 3, 123.00, 369.00, '2023-07-13 00:00:00', '2023-07-13 00:00:00');
+INSERT INTO `tba_stock` VALUES (5, 4, 3, 15, 3, 12, 99.99, 1199.88, '2023-07-14 00:00:00', '2023-07-14 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_tienda
@@ -214,13 +221,14 @@ CREATE TABLE `tba_tienda`  (
   `FechaCreacion` datetime NOT NULL,
   `FechaActualizacion` datetime NOT NULL,
   PRIMARY KEY (`IdTienda`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_tienda
 -- ----------------------------
 INSERT INTO `tba_tienda` VALUES (1, 'TND-01', 'TIENDA 1', '2023-07-11 09:40:16', '2023-07-11 09:40:20');
 INSERT INTO `tba_tienda` VALUES (3, 'TND-02', 'TIENDA 2', '2023-07-10 00:00:00', '2023-07-10 00:00:00');
+INSERT INTO `tba_tienda` VALUES (4, 'TND-03', 'Tienda Central', '2023-07-14 00:00:00', '2023-07-14 00:00:00');
 
 -- ----------------------------
 -- Table structure for tba_tipomovimiento
@@ -255,11 +263,13 @@ CREATE TABLE `tba_usuario`  (
   PRIMARY KEY (`IdUsuario`) USING BTREE,
   INDEX `tba_usuario_fkPerfilUsuario`(`IdPerfilUsuario`) USING BTREE,
   CONSTRAINT `tba_usuario_fkPerfilUsuario` FOREIGN KEY (`IdPerfilUsuario`) REFERENCES `tba_perfilusuario` (`IdPerfilUsuario`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of tba_usuario
 -- ----------------------------
-INSERT INTO `tba_usuario` VALUES (1, 1, 'Administrador', 'admin@gmail.com', '$2a$07$usesomesillystringforeh6tvwDNOAiEn9PYXfY79K3vDiKj6Ib6', 987654321, '2023-07-08', '2023-07-08', '2023-07-13 15:10:09');
+INSERT INTO `tba_usuario` VALUES (1, 1, 'Administrador', 'admin@gmail.com', '$2a$07$usesomesillystringforeh6tvwDNOAiEn9PYXfY79K3vDiKj6Ib6', 987654321, '2023-07-08', '2023-07-08', '2023-07-14 14:44:17');
+INSERT INTO `tba_usuario` VALUES (3, 2, 'Vendedor 1', 'vendedor@gmail.com', '$2a$07$usesomesillystringforeh6tvwDNOAiEn9PYXfY79K3vDiKj6Ib6', NULL, '2023-07-14', '2023-07-14', '2023-07-14 12:37:35');
+INSERT INTO `tba_usuario` VALUES (4, 2, 'Vendedor 2', 'vendedor2@gmail.com', '$2a$07$usesomesillystringforeh6tvwDNOAiEn9PYXfY79K3vDiKj6Ib6', NULL, '2023-07-14', '2023-07-14', NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

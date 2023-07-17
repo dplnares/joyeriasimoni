@@ -125,7 +125,7 @@
                             <td>'.$value["FechaCreacion"].'</td>
                             <td>
                               <button class="btn btn-success btnVisualizarIngreso" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalVisualizarIngreso"><i class="fa-solid fa-search"></i></button>
-                              <button class="btn btn-warning btnEditarIngreso" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalEditarTienda"><i class="fa-solid fa-pencil"></i></button>
+                              <button class="btn btn-warning btnEditarIngreso" codIngreso="'.$value["IdMovimiento"].'" codTienda="'.$_GET["codTienda"].'"><i class="fa-solid fa-pencil"></i></button>
                               <button class="btn btn-danger btnEliminarIngreso" codIngreso="'.$value["IdMovimiento"].'" codTienda="'.$_GET["codTienda"].'"><i class="fa-solid fa-trash"></i></button>
                             </td> 
                           </tr>';

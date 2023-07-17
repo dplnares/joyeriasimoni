@@ -36,6 +36,7 @@
           $_GET["ruta"] == "crearIngreso" ||
           $_GET["ruta"] == "crearSalida" ||
           $_GET["ruta"] == "buscarRecurso" ||
+          $_GET["ruta"] == "editarIngreso" ||
           $_GET["ruta"] == "signout" 
         )
         {

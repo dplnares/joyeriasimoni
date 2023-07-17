@@ -92,7 +92,7 @@
 
           <!-- Categoría del Producto -->
           <div class="form-group">
-              <label for="categoriaProducto" class="col-form-label">Perfil:</label>
+              <label for="categoriaProducto" class="col-form-label">Categoría:</label>
               <select class="form-control" name="categoriaProducto">
                 <?php
                   $categorias = ControllerCategorias::ctrMostrarCategorias();
@@ -157,7 +157,7 @@
 
           <!-- Categoría del Producto -->
           <div class="form-group">
-              <label for="editarCategoria" class="col-form-label">Perfil:</label>
+              <label for="editarCategoria" class="col-form-label">Categoría:</label>
               <select class="form-control" name="editarCategoria">
                 <?php
                   $categorias = ControllerCategorias::ctrMostrarCategorias();

@@ -16,6 +16,15 @@ $("#btnNuevoIngreso").on("click", function(){
   }
 });
 
+//  Redirigir a vista de editar un ingreso
+$(".table").on("click", ".btnEditarIngreso", function(){
+  var codIngreso = $(this).attr("codIngreso");
+  if(codIngreso!=null)
+  {
+    window.location = "index.php?ruta=editarIngreso&codIngreso="+codIngreso;
+  }
+});
+
 //  Agregar los productos del modal al detalle del ingreso
 $(".tablaProductos").on("click", ".btnAgregarProductoIngreso", function(){
   
@@ -200,6 +209,11 @@ $(".table").on("click", ".btnEliminarIngreso", function () {
   });
 });
 
+//  Alerta para eliminar un ingreso
+$(".formularioIngreso").on("click", ".btnEditarIngreso", function(){
+  listarProductosIngreso();
+  sumarListaProductosIngresos();
+});
 
 //  FUNCIONES PARA SUMAR Y LISTAR LOS PRODUCTOS
 function listarProductosIngreso()

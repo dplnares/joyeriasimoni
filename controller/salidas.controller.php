@@ -28,7 +28,8 @@ class ControllerSalidas
       $datosCabecera = array(
         "IdTipoMovimiento" => "2",
         "IdTienda" => $tiendaActual,
-        "IdUsuario" => $_SESSION["idUsuario"],
+        "CreadoUsuario" => $_SESSION["idUsuario"],
+        "ActualizaUsuario" => $_SESSION["idUsuario"],
         "NumeroDocumento" => $_POST["numeroDocumentoSalida"],
         "NombreCliente" => $_POST["nombreCliente"],
         "Total" => $_POST["nuevoTotalSalida"],
