@@ -132,4 +132,12 @@ class ControllerProductos
     $datosProducto = ModelProductos::mdlMostrarDatosProducto($tabla, $codProducto);
     return $datosProducto;
   }
+
+  //  Obtener el precio unitario de un producto
+  public static function ctrObtenerPrecioUnitario($codProducto)
+  {
+    $tabla = "tba_producto";
+    $respuesta = ModelProductos::mdlObtenerPrecioUnitario($tabla, $codProducto);
+    return $respuesta;
+  }
 }

@@ -162,10 +162,82 @@ class ControllerStock
     return $respuesta;
   }
 
+  //  Mostrar el stock por campo seleccionado
   public static function ctrMostrarStockPorCampo($campoBusqueda, $valorBuscado)
   {
     $tabla = "tba_stock";
     $respuesta = ModelStock::mdlObtenerStockGeneral($campoBusqueda, $valorBuscado);
     return $respuesta;
+  }
+
+  //  Cambiar el stock de un item por modificación 
+  public static function ctrEditarUnIngreso($datosStock)
+  {
+    $tabla = "tba_stock";
+    $stockActual = self::ctrObtenerStockActualProducto($datosStock["IdProducto"], $datosStock["CodTienda"]);
+    //  Si el recurso ya tiene movimiento en ese almacén, solo se corregirá el stock actual de ese recurso
+    if($stockActual != null || $stockActual != "")
+    {
+      $nuevaCantidadIngresos = $stockActual["CantidadIngresos"] - $datosStock["CantidadAntigua"];
+      $nuevaCantidadIngresos = $nuevaCantidadIngresos + $datosStock["CantidadNueva"];
+
+      $nuevaCantidadActual = $stockActual["CantidadActual"] - $datosStock["CantidadAntigua"];
+      $nuevaCantidadActual = $nuevaCantidadActual + $datosStock["CantidadNueva"];
+
+      $precioUnitario = ControllerProductos::ctrObtenerPrecioUnitario($datosStock["IdProducto"]);
+      $nuevoPrecioTotal = $nuevaCantidadActual * $precioUnitario["PrecioUnitarioProducto"];
+      
+      $datosUpdateStock = array(
+        "IdProducto" => $datosStock["IdProducto"],
+        "IdTienda" => $datosStock["CodTienda"],
+        "CantidadIngresos" => $nuevaCantidadIngresos,
+        "CantidadActual" => $nuevaCantidadActual,
+        "PrecioTotal" => $nuevoPrecioTotal,
+        "FechaActualizacion" => date("Y-m-d")
+      );
+      $respuesta = ModelStock::mdlActualizarStockIngreso($tabla, $datosUpdateStock);
+    }
+    
+    //  Si no se tiene movimiento de ese recurso en almacén, creará un nuevo registro del stock
+    else
+    {
+      $precioUnitario = ControllerProductos::ctrObtenerPrecioUnitario($datosStock["IdProducto"]);
+      $nuevoPrecioTotal = $datosStock["CantidadNueva"] * $precioUnitario["PrecioUnitarioProducto"];
+      $datosCreateStock = array(       
+        "IdTienda" => $datosStock["CodTienda"],
+        "IdProducto" => $datosStock["IdProducto"],
+        "CantidadIngresos" => $datosStock["CantidadNueva"],
+        "CantidadSalidas" => 0,
+        "CantidadActual" => $datosStock["CantidadNueva"],
+        "PrecioUnitario" => $precioUnitario["PrecioUnitarioProducto"],
+        "PrecioTotal" => $nuevoPrecioTotal,
+        "FechaCreacion" => date("Y-m-d"),
+        "FechaActualizacion" => date("Y-m-d")
+      );
+      $respuesta = ModelStock::mdlCrearRegistroStock($tabla, $datosCreateStock);
+    }
+    return $respuesta;
+  }
+
+  //  Eliminar un producto de un ingreso
+  public static function ctrEliminarUnRecursoIngreso($codTienda, $codProducto, $cantidad)
+  {
+    $tabla = "tba_stock";
+    $stockActual = self::ctrObtenerStockActualProducto($codProducto, $codTienda);
+    $nuevaCantidadIngresos = $stockActual["CantidadIngresos"] - $cantidad;
+    $nuevaCantidadActual = $stockActual["CantidadActual"] - $cantidad;
+    $precioUnitario = ControllerProductos::ctrObtenerPrecioUnitario($codProducto);
+    $nuevoPrecioTotal = $nuevaCantidadActual * $precioUnitario["PrecioUnitarioProducto"];
+
+    $datosUpdateStock = array(
+      "IdProducto" => $codProducto,
+      "IdTienda" => $codTienda,
+      "CantidadIngresos" => $nuevaCantidadIngresos,
+      "CantidadActual" => $nuevaCantidadActual,
+      "PrecioTotal" => $nuevoPrecioTotal,
+      "FechaActualizacion" => date("Y-m-d")
+    );
+    
+    $respuesta = ModelStock::mdlActualizarStockIngreso($tabla, $datosUpdateStock);
   }
 }

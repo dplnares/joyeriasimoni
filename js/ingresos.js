@@ -106,6 +106,12 @@ $(".formularioIngreso").on("click", "button.quitarProductoIngreso", function(){
   sumarListaProductosIngresos();
 });
 
+//  Cada vez que se recargue la pagina se ejecuta las funciones
+$(".formularioIngreso").on("click", "button.btnEditarIngreso", function(){
+  listarProductosIngreso();
+  sumarListaProductosIngresos();
+});
+
 //  Actualizar el valor del parcial segun la cantidad
 $(".formularioIngreso").on("change", "input.cantidadProducto", function(){
 

@@ -89,9 +89,9 @@
                 <button type="button" class="btn btn-info btnNuevoIngreso" id="btnNuevoIngreso" codTienda="<?php echo $_GET["codTienda"] ?>">Nuevo Ingreso </button>
               </div>
               <div class="d-inline-flex m-2">
-                <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php echo $_GET["codTienda"] ?>">
+                <!-- <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php //echo $_GET["codTienda"] ?>">
                   <button type="button" class="btn btn-success">Descargar Excel</button>
-                </a>
+                </a> -->
               </div>
 
               <div class="card mb-4">
@@ -107,7 +107,7 @@
                         <th>Numero Documento</th>
                         <th>Nombre Proveedor</th>
                         <th>Total</th>
-                        <th>Fecha Creacion</th>
+                        <th>Fecha Ingreso</th>
                         <th>Acciones</th>
                       </tr>
                     </thead>
@@ -122,7 +122,7 @@
                             <td>'.$value["NumeroDocumento"].'</td>
                             <td>'.$value["NombreProveedor"].'</td>
                             <td>'.$value["Total"].'</td>
-                            <td>'.$value["FechaCreacion"].'</td>
+                            <td>'.$value["FechaMovimiento"].'</td>
                             <td>
                               <button class="btn btn-success btnVisualizarIngreso" codIngreso="'.$value["IdMovimiento"].'" data-bs-toggle="modal" data-bs-target="#modalVisualizarIngreso"><i class="fa-solid fa-search"></i></button>
                               <button class="btn btn-warning btnEditarIngreso" codIngreso="'.$value["IdMovimiento"].'" codTienda="'.$_GET["codTienda"].'"><i class="fa-solid fa-pencil"></i></button>

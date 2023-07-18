@@ -44,7 +44,7 @@
                 <!-- Fecha del ingreso -->
                 <div class="col-md-6">
                   <label for="editarFechaDeIngreso" class="form-label" style="font-weight: bold">Fecha de Ingreso</label>
-                  <input type="date" class="form-control" id="editarFechaDeIngreso" name="editarFechaDeIngreso" value="<?php echo $cabeceraIngreso["FechaCreacion"] ?>">
+                  <input type="date" class="form-control" id="editarFechaDeIngreso" name="editarFechaDeIngreso" value="<?php echo $cabeceraIngreso["FechaMovimiento"] ?>">
                 </div>
 
                 <!-- Nombre del proveedor -->
@@ -84,7 +84,7 @@
                         <div class="col-lg-5" style="padding-right:0px">
                           <div class="input-group">
                             <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProductoIngreso" idProducto="'.$value["IdProducto"].'"><i class="fa fa-times"></i></button></span>
-                            <input type="text" class="form-control editarProductoIngreso" idProducto="'.$value["IdProducto"].'" name="editarProductoIngreso" value="'.$value["DescripcionProducto"].'" readonly>
+                            <input type="text" class="form-control nuevoproductoIngreso" idProducto="'.$value["IdProducto"].'" name="agregarProducto" value="'.$value["DescripcionProducto"].'" readonly>
                           </div>
                         </div>
 
@@ -148,8 +148,6 @@
   </div>
   
 <?php
-
-//  USAR AJAX EN VEZ DE UN CONTROLADOR
   $crearIngreso = new ControllerIngresos;
   $crearIngreso -> ctrEditarIngresos();
 ?>

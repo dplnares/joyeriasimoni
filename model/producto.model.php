@@ -95,4 +95,12 @@ class ModelProductos
     $statement -> execute();
     return $statement -> fetch();
   }
+
+  //  Obtener el precio unitario de un producto
+  public static function mdlObtenerPrecioUnitario($tabla, $codProducto)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_producto.IdProducto, tba_producto.PrecioUnitarioProducto FROM $tabla WHERE tba_producto.IdProducto = $codProducto");
+    $statement -> execute();
+    return $statement -> fetch();
+  }
 }

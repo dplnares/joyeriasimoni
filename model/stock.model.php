@@ -157,4 +157,24 @@ class ModelStock
     return $stmt -> fetchAll();
   }
   
+  //  Actualizar el stock por edición de un ingreso
+  public static function mdlActualizarStockIngreso($tabla, $datosUpdateStock)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $tabla SET CantidadIngresos=:CantidadIngresos, CantidadActual=:CantidadActual, FechaActualizacion=:FechaActualizacion, PrecioTotal=:PrecioTotal, FechaActualizacion=:FechaActualizacion WHERE IdProducto=:IdProducto AND IdTienda=:IdTienda");
+
+    $statement -> bindParam(":CantidadIngresos", $datosUpdateStock["CantidadIngresos"], PDO::PARAM_STR);
+    $statement -> bindParam(":CantidadActual", $datosUpdateStock["CantidadActual"], PDO::PARAM_STR);
+    $statement -> bindParam(":PrecioTotal", $datosUpdateStock["PrecioTotal"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosUpdateStock["FechaActualizacion"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdProducto", $datosUpdateStock["IdProducto"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdTienda", $datosUpdateStock["IdTienda"], PDO::PARAM_STR);
+    if($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
 }

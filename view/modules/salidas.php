@@ -89,9 +89,9 @@
                 <button type="button" class="btn btn-info btnNuevaSalida" id="btnNuevaSalida" codTienda="<?php echo $_GET["codTienda"] ?>">Nueva Salida </button>
               </div>
               <div class="d-inline-flex m-2">
-                <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php echo $_GET["codTienda"] ?>">
+                <!-- <a href="vistas/modulos/descargar-reporte.php?reporteStockProyecto=<?php //echo $_GET["codTienda"] ?>">
                   <button type="button" class="btn btn-success">Descargar Excel</button>
-                </a>
+                </a> -->
               </div>
 
               <div class="card mb-4">
