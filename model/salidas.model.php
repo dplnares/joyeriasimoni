@@ -100,4 +100,28 @@ class ModelSalidas
       return "error";
     }
   }
+
+  //  Obtener la cabecera del movimiento
+  public static function mdlObtenerCabeceraSalida($tabla, $codSalida)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_movimiento.IdMovimiento, tba_movimiento.IdTienda, tba_movimiento.CreadoUsuario, tba_movimiento.NumeroDocumento, tba_movimiento.NombreCliente, tba_movimiento.Total, tba_movimiento.FechaMovimiento, tba_tienda.NombreTienda FROM $tabla INNER JOIN tba_tienda ON tba_movimiento.IdTienda = tba_tienda.IdTienda WHERE tba_movimiento.IdMovimiento = $codSalida");
+    $statement -> execute();
+    return $statement -> fetch();
+  }
+
+  //  Obtener el detalle del movimiento
+  public static function mdlOBtenerDetalleSalidaEditar($tabla, $codSalida)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento, tba_detallemovimiento.PrecioUnitario, tba_detallemovimiento.ParcialTotal, tba_producto.DescripcionProducto, tba_producto.CodProducto, tba_producto.PesoProducto, tba_producto.PrecioUnitarioProducto FROM $tabla INNER JOIN tba_producto ON tba_detallemovimiento.IdProducto = tba_producto.IdProducto WHERE tba_detallemovimiento.IdMovimiento = $codSalida");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
+
+  //  Obtener el detalle anterior de la salida
+  public static function mdlObtenerListaAntigua($tabla, $codSalida)
+  {
+    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento FROM $tabla WHERE tba_detallemovimiento.IdMovimiento = $codSalida");
+    $statement -> execute();
+    return $statement -> fetchAll();
+  }
 }

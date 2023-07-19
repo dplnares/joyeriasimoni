@@ -219,6 +219,21 @@ $(".table").on("click", ".btnEliminarSalida", function () {
   });
 });
 
+//  Redirigir a vista de editar una salida
+$(".table").on("click", ".btnEditarSalida", function(){
+  var codSalida = $(this).attr("codSalida");
+  if(codSalida!=null)
+  {
+    window.location = "index.php?ruta=editarSalida&codSalida="+codSalida;
+  }
+});
+
+//  Cada vez que se recargue la pagina se ejecuta las funciones
+$(".formularioSalida").on("click", "button.btnEditarSalida", function(){
+  listarProductosSalida();
+  sumarListaProductosSalida();
+});
+
 
 //  FUNCIONES PARA SUMAR Y LISTAR LOS PRODUCTOS
 function listarProductosSalida()

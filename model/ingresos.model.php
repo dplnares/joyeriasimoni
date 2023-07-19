@@ -136,7 +136,7 @@ class ModelIngresos
     return $statement -> fetchAll();
   }
 
-  //  Redirigir a la modificacion de un ingreso
+  //  Obtener la cabecera del movimiento
   public static function mdlObtenerCabeceraIngreso($tabla, $codIngreso)
   {
     $statement = Conexion::conn()->prepare("SELECT tba_movimiento.IdMovimiento, tba_movimiento.IdTienda, tba_movimiento.CreadoUsuario, tba_movimiento.NumeroDocumento, tba_movimiento.NombreProveedor, tba_movimiento.Total, tba_movimiento.FechaMovimiento, tba_tienda.NombreTienda FROM $tabla INNER JOIN tba_tienda ON tba_movimiento.IdTienda = tba_tienda.IdTienda WHERE tba_movimiento.IdMovimiento = $codIngreso");

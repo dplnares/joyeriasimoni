@@ -11,16 +11,16 @@
         <div class="container-fluid px-4">
           <h1 class="mt-4">
             <?php 
-            if(isset($_GET["codIngreso"]))
+            if(isset($_GET["codSalida"]))
             {
-              $cabeceraIngreso = ControllerIngresos::ctrObtenerDatosCabecera($_GET["codIngreso"]);
-              echo "Editar Ingreso".' - '.$cabeceraIngreso["NombreTienda"].'-'.$cabeceraIngreso["NumeroDocumento"] ;
+              $cabeceraSalida = ControllerSalidas::ctrObtenerDatosCabecera($_GET["codSalida"]);
+              echo "Editar Ingreso".' - '.$cabeceraSalida["NombreTienda"].'-'.$cabeceraSalida["NumeroDocumento"];
             }
             else 
             {
               echo'
                 <script>
-                  window.location = "index.php?ruta=ingresos";
+                  window.location = "index.php?ruta=salidas";
                 </script>
               ';
             }
@@ -29,28 +29,28 @@
         </div>
       
         <div class="container-fluid">
-          <form role="form" method="post" class="row g-3 m-2 formularioIngreso">
+          <form role="form" method="post" class="row g-3 m-2 formularioSalida">
 
             <!-- Cabecera -->
             <span class="border border-3 p-3">
               <div class="container row g-3">
                 <h3> Datos Cabecera</h3>
-                <!-- Número de documento de ingreso -->
+                <!-- Número de documento de salida -->
                 <div class="col-md-6">
-                  <label for="editarNumeroDocumentoIngreso" class="form-label" style="font-weight: bold">Número de documento</label>
-                  <input type="text" class="form-control" id="editarNumeroDocumentoIngreso" name="editarNumeroDocumentoIngreso" value="<?php echo $cabeceraIngreso["NumeroDocumento"] ?>">
+                  <label for="editarNumeroDocumentoSalida" class="form-label" style="font-weight: bold">Número de documento</label>
+                  <input type="text" class="form-control" id="editarNumeroDocumentoSalida" name="editarNumeroDocumentoSalida" value="<?php echo $cabeceraSalida["NumeroDocumento"] ?>">
                 </div>
 
-                <!-- Fecha del ingreso -->
+                <!-- Fecha de salida -->
                 <div class="col-md-6">
-                  <label for="editarFechaDeIngreso" class="form-label" style="font-weight: bold">Fecha de Ingreso</label>
-                  <input type="date" class="form-control" id="editarFechaDeIngreso" name="editarFechaDeIngreso" value="<?php echo $cabeceraIngreso["FechaMovimiento"] ?>">
+                  <label for="editarFechaSalida" class="form-label" style="font-weight: bold">Fecha de Ingreso</label>
+                  <input type="date" class="form-control" id="editarFechaSalida" name="editarFechaSalida" value="<?php echo $cabeceraSalida["FechaMovimiento"] ?>">
                 </div>
 
-                <!-- Nombre del proveedor -->
+                <!-- Nombre del cliente -->
                 <div class="col-12">
-                  <label for="editarNombreProveedor" class="form-label" style="font-weight: bold">Nombre del proveedor</label>
-                  <input type="text" class="form-control" id="editarNombreProveedor" name="editarNombreProveedor" value="<?php echo $cabeceraIngreso["NombreProveedor"] ?>">
+                  <label for="editarNombreCliente" class="form-label">Nombre del cliente</label>
+                  <input type="text" class="form-control" id="editarNombreCliente" name="editarNombreCliente" value="<?php echo $cabeceraSalida["NombreCliente"] ?>">
                 </div>
               </div>
             </span>
@@ -72,10 +72,10 @@
                   <div class="col-lg-2">Parcial</div>
                 </div>
 
-                <div class="form-group row nuevoProductoIngreso">
+                <div class="form-group row nuevoProductoSalida">
                   <?php
-                    $detalleIngreso = ControllerIngresos::ctrObtenerDetalleIngresoEditar($_GET["codIngreso"]);
-                    foreach ($detalleIngreso as $value)
+                    $detalleSalida = ControllerSalidas::ctrObtenerDetalleSalidaEditar($_GET["codSalida"]);
+                    foreach ($detalleSalida as $value)
                     {
                       echo '
                       <div class="row" style="padding:5px 15px">
@@ -83,8 +83,8 @@
                         <!-- Descripción del producto -->
                         <div class="col-lg-5" style="padding-right:0px">
                           <div class="input-group">
-                            <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitarProductoIngreso" idProducto="'.$value["IdProducto"].'"><i class="fa fa-times"></i></button></span>
-                            <input type="text" class="form-control nuevoproductoIngreso" idProducto="'.$value["IdProducto"].'" name="agregarProducto" value="'.$value["DescripcionProducto"].'" readonly>
+                            <span class="input-group-addon"><button type="button" class="btn btn-danger btn-xs quitaProductoSalida" idProducto="'.$value["IdProducto"].'"><i class="fa fa-times"></i></button></span>
+                            <input type="text" class="form-control nuevoproductoSalida" idProducto="'.$value["IdProducto"].'" name="agregarProducto" value="'.$value["DescripcionProducto"].'" readonly>
                           </div>
                         </div>
 
@@ -100,7 +100,7 @@
 
                         <!-- Cantidad del producto -->
                         <div class="col-lg-1 ingresoCantidad">
-                          <input type="number" class="form-control cantidadProducto" name="cantidadProducto" min="1" value="'.$value["CantidadMovimiento"].'" required>
+                          <input type="number" class="form-control nuevacantidadProducto" name="nuevacantidadProducto" min="1" value="'.$value["CantidadMovimiento"].'" required>
                         </div>
 
                         <!-- Precio unitario del producto -->
@@ -116,8 +116,8 @@
                       ';
                     }
                   ?>
-
-                  <input type="hidden" id="listarProductosIngreso" name="listarProductosIngreso">
+                  
+                  <input type="hidden" id="listarProductosSalida" name="listarProductosSalida">
                 </div>
               </div>
             </span>
@@ -126,18 +126,27 @@
             <span class="border border-3 p-3">
               <div class="container row g-3">
                 <h3> Total</h3>
+                <!-- <div class="row" style="font-weight: bold">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-1"><span>SubTotal:</span></div><div class="col-lg-2"><input type="text" style="text-align: right;" class="form-control input-lg" id="nuevoSubTotalIngreso" name="nuevoSubTotalIngreso" placeholder="0.00" readonly></div>            
+                </div>
 
                 <div class="row" style="font-weight: bold">
                   <div class="col-lg-1"></div>
-                  <div class="col-lg-1"><span>Total:</span></div><div class="col-lg-2"><input type="text" style="text-align: right;" class="form-control input-lg" id="nuevoTotalIngreso" name="nuevoTotalIngreso" value="<?php echo $cabeceraIngreso["Total"] ?>" readonly></div>              
+                  <div class="col-lg-1"><span>IGV:</span></div><div class="col-lg-2"><input type="text" style="text-align: right;" class="form-control input-lg" min="0" id="nuevoImpuestoIngreso" name="nuevoImpuestoIngreso" placeholder="0.00" readonly></div>              
+                </div> -->
+
+                <div class="row" style="font-weight: bold">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-1"><span>Total:</span></div><div class="col-lg-2"><input type="text" style="text-align: right;" class="form-control input-lg" min="0" id="nuevoTotalSalida" name="nuevoTotalSalida" placeholder="0.00" value="<?php echo $cabeceraSalida["Total"] ?>" readonly></div>              
                 </div>
               </div>
 
               <div class="container row g-3 p-3">
                 
-                <button type="submit" class="col-2 d-inline-flex p-2 btn btn-primary btnEditarIngreso">Editar Ingreso</button>
-                <input type="hidden" name="codTienda" id="codTienda" value="<?php echo $cabeceraIngreso["IdTienda"] ?>"> 
-                <input type="hidden" name="codIngreso" id="codIngreso" value="<?php echo $_GET["codIngreso"] ?>"> 
+                <button type="submit" class="col-2 d-inline-flex p-2 btn btn-primary">Editar Salida</button>
+                <input type="hidden" name="codTienda" id="codTienda" value="<?php echo $cabeceraSalida["IdTienda"]?>"> 
+                <input type="hidden" name="codSalida" id="codSalida" value="<?php echo $_GET["codSalida"]?>"> 
               </div>
             </span>
 
@@ -148,11 +157,11 @@
   </div>
   
 <?php
-  $editarIngreso = new ControllerIngresos;
-  $editarIngreso -> ctrEditarIngresos();
+  $editarSalida = new ControllerSalidas;
+  $editarSalida -> ctrEditarSalida();
 ?>
 
-<!-- Modal agregar un nuevo recurso -->
+<!-- Modal ingresar nuevo recurso -->
 <div class="modal fade" id="modalAgregarProducto" tabindex="-1" role="dialog" aria-labelledby="modalAgregarProducto" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -171,12 +180,14 @@
               <th style ="width:10px">#</th>
               <th>Nombre Recurso</th>
               <th>Codigo</th>
-              <th>Acciones</th>              
+              <th>Cantidad</th>
+              <th>Acciones</th>      
             </tr> 
           </thead>
           <tbody>
             <?php
-              $listaProductos = ControllerProductos::ctrMostrarProductosModalIngreso();
+              //  Modificar por una lista de los productos en stock
+              $listaProductos = ControllerStock::ctrMostrarProductosEnStock();
               foreach ($listaProductos as $key => $value)
               {
                 echo ' 
@@ -184,11 +195,12 @@
                     <td>'.($key + 1).'</td>
                     <td>'.$value["DescripcionProducto"].'</td>
                     <td>'.$value["CodProducto"].'</td>
+                    <td>'.$value["CantidadActual"].'</td>
                     <td>
                       <div class="btn-group">
-                        <button class="btn btn-primary btnAgregarProductoIngreso recuperarBoton" idProducto="'.$value["IdProducto"].'">Agregar</button> 
+                        <button class="btn btn-primary btnAgregarProductoSalida recuperarBoton" stockActual="'.$value["CantidadActual"].'"  idProducto="'.$value["IdProducto"].'">Agregar</button> 
                       </div>
-                    </td>0
+                    </td>
                   </tr>'
                 ;
               }
