@@ -15,7 +15,7 @@ class ModelSalidas
   //  Agregar la cabecera de la salida
   public static function mdlIngresarCabeceraSalida($tabla, $datosCabecera)
   {
-    $statement = Conexion::conn()->prepare("INSERT INTO $tabla (IdTipoMovimiento, IdTienda, CreadoUsuario, ActualizaUsuario, NumeroDocumento, NombreCliente, Total, FechaCreacion, FechaActualizacion) VALUES(:IdTipoMovimiento, :IdTienda, :CreadoUsuario, :ActualizaUsuario, :NumeroDocumento, :NombreCliente, :Total, :FechaCreacion, :FechaActualizacion)");
+    $statement = Conexion::conn()->prepare("INSERT INTO $tabla (IdTipoMovimiento, IdTienda, CreadoUsuario, ActualizaUsuario, NumeroDocumento, NombreCliente, Total, FechaMovimiento, FechaCreacion, FechaActualizacion) VALUES(:IdTipoMovimiento, :IdTienda, :CreadoUsuario, :ActualizaUsuario, :NumeroDocumento, :NombreCliente, :Total, :FechaMovimiento, :FechaCreacion, :FechaActualizacion)");
     $statement -> bindParam(":IdTipoMovimiento", $datosCabecera["IdTipoMovimiento"], PDO::PARAM_STR);
     $statement -> bindParam(":IdTienda", $datosCabecera["IdTienda"], PDO::PARAM_STR);
     $statement -> bindParam(":CreadoUsuario", $datosCabecera["CreadoUsuario"], PDO::PARAM_STR);
@@ -23,6 +23,7 @@ class ModelSalidas
     $statement -> bindParam(":NumeroDocumento", $datosCabecera["NumeroDocumento"], PDO::PARAM_STR);
     $statement -> bindParam(":NombreCliente", $datosCabecera["NombreCliente"], PDO::PARAM_STR);
     $statement -> bindParam(":Total", $datosCabecera["Total"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaMovimiento", $datosCabecera["FechaMovimiento"], PDO::PARAM_STR);
     $statement -> bindParam(":FechaCreacion", $datosCabecera["FechaCreacion"], PDO::PARAM_STR);
     $statement -> bindParam(":FechaActualizacion", $datosCabecera["FechaActualizacion"], PDO::PARAM_STR);
     if($statement -> execute())
@@ -120,8 +121,61 @@ class ModelSalidas
   //  Obtener el detalle anterior de la salida
   public static function mdlObtenerListaAntigua($tabla, $codSalida)
   {
-    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento FROM $tabla WHERE tba_detallemovimiento.IdMovimiento = $codSalida");
+    $statement = Conexion::conn()->prepare("SELECT tba_detallemovimiento.IdProducto, tba_detallemovimiento.CantidadMovimiento, tba_detallemovimiento.ParcialTotal FROM $tabla WHERE tba_detallemovimiento.IdMovimiento = $codSalida");
     $statement -> execute();
     return $statement -> fetchAll();
+  }
+
+  //  Eliminar detalle de editar salida
+  public static function mdlEliminarEditarDetalleSalida($tabla, $codSalida, $idProducto)
+  {
+    $statement = Conexion::conn()->prepare("DELETE FROM $tabla WHERE IdMovimiento = $codSalida and IdProducto = $idProducto");
+    if ($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+  
+  //  Actualizar el detalle de la salida
+  public static function mdlActualizarDetalleSalida($tabla, $datosUpdateDetalle)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $tabla SET CantidadMovimiento=:CantidadMovimiento, ParcialTotal=:ParcialTotal, FechaActualizacion=:FechaActualizacion WHERE IdMovimiento=:IdMovimiento AND IdProducto=:IdProducto");
+    $statement -> bindParam(":CantidadMovimiento", $datosUpdateDetalle["CantidadMovimiento"], PDO::PARAM_STR);
+    $statement -> bindParam(":ParcialTotal", $datosUpdateDetalle["ParcialTotal"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosUpdateDetalle["FechaActualizacion"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdMovimiento", $datosUpdateDetalle["IdMovimiento"], PDO::PARAM_STR);
+    $statement -> bindParam(":IdProducto", $datosUpdateDetalle["IdProducto"], PDO::PARAM_STR);
+    if($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
+  }
+  
+  //  Editar la cabecera de una salida
+  public static function mdlEditarCabeceraSalida($tabla, $codIngreso, $datosUpdateCabecera)
+  {
+    $statement = Conexion::conn()->prepare("UPDATE $tabla SET ActualizaUsuario=:ActualizaUsuario, NumeroDocumento=:NumeroDocumento, NombreCliente=:NombreCliente, Total=:Total, FechaMovimiento=:FechaMovimiento, FechaActualizacion=:FechaActualizacion WHERE tba_movimiento.IdMovimiento = $codIngreso");
+    $statement -> bindParam(":ActualizaUsuario", $datosUpdateCabecera["ActualizaUsuario"], PDO::PARAM_STR);
+    $statement -> bindParam(":NumeroDocumento", $datosUpdateCabecera["NumeroDocumento"], PDO::PARAM_STR);
+    $statement -> bindParam(":NombreCliente", $datosUpdateCabecera["NombreCliente"], PDO::PARAM_STR);
+    $statement -> bindParam(":Total", $datosUpdateCabecera["Total"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaMovimiento", $datosUpdateCabecera["FechaMovimiento"], PDO::PARAM_STR);
+    $statement -> bindParam(":FechaActualizacion", $datosUpdateCabecera["FechaActualizacion"], PDO::PARAM_STR);
+    if($statement -> execute())
+    {
+      return "ok";
+    }
+    else
+    {
+      return "error";
+    }
   }
 }

@@ -187,10 +187,12 @@
           <tbody>
             <?php
               //  Modificar por una lista de los productos en stock
-              $listaProductos = ControllerStock::ctrMostrarProductosEnStock();
+              $listaProductos = ControllerStock::ctrMostrarProductosEnStockTienda($cabeceraSalida["IdTienda"]);
               foreach ($listaProductos as $key => $value)
               {
-                echo ' 
+                if($value["CantidadActual"] > 0)
+                {
+                  echo ' 
                   <tr>
                     <td>'.($key + 1).'</td>
                     <td>'.$value["DescripcionProducto"].'</td>
@@ -202,7 +204,8 @@
                       </div>
                     </td>
                   </tr>'
-                ;
+                  ;
+                }
               }
             ?>
           </tbody>

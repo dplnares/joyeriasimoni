@@ -37,8 +37,8 @@
                 <h3> Datos Cabecera</h3>
                 <!-- Número de documento de salida -->
                 <div class="col-md-6">
-                  <label for="numeroDocumentoSalida" class="form-label" style="font-weight: bold">Número de documento</label>
-                  <input type="text" class="form-control" id="numeroDocumentoSalida" name="numeroDocumentoSalida">
+                  <label for="editarNumeroSalida" class="form-label" style="font-weight: bold">Número de documento</label>
+                  <input type="text" class="form-control" id="editarNumeroSalida" name="editarNumeroSalida">
                 </div>
 
                 <!-- Fecha de salida -->
@@ -146,7 +146,9 @@
               $listaProductos = ControllerStock::ctrMostrarProductosEnStock();
               foreach ($listaProductos as $key => $value)
               {
-                echo ' 
+                if($value["CantidadActual"] > 0)
+                {
+                  echo ' 
                   <tr>
                     <td>'.($key + 1).'</td>
                     <td>'.$value["DescripcionProducto"].'</td>
@@ -158,7 +160,8 @@
                       </div>
                     </td>
                   </tr>'
-                ;
+                  ;
+                }
               }
             ?>
           </tbody>

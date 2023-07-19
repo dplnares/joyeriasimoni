@@ -33,6 +33,7 @@ class ControllerSalidas
         "NumeroDocumento" => $_POST["numeroDocumentoSalida"],
         "NombreCliente" => $_POST["nombreCliente"],
         "Total" => $_POST["nuevoTotalSalida"],
+        "FechaMovimiento" => $_POST["fechaSalida"],
         "FechaCreacion"=> date("Y-m-d"),
         "FechaActualizacion"=> date("Y-m-d")
       );
@@ -310,120 +311,91 @@ class ControllerSalidas
         );
       }
 
-      //  Comparar las listas, sin son iguales continua con el siguiente bucle. Si son distintas elimina la lista actual del detalle 
-      foreach ($l3 as $valueL3)
+      $datosUpdateCabecera = array(
+        "ActualizaUsuario" => $_SESSION["idUsuario"],
+        "NumeroDocumento" => $_POST["editarNumeroSalida"],
+        "NombreCliente"=> $_POST["editarNombreCliente"],
+        "Total" => $_POST["nuevoTotalSalida"],
+        "FechaMovimiento"=> $_POST["editarFechaSalida"],
+        "FechaActualizacion"=> date("Y-m-d"),
+      );
+
+      $respuestaCabecera = ModelSalidas::mdlEditarCabeceraSalida($tablaCabecera, $codSalida, $datosUpdateCabecera);
+      if($respuestaCabecera == "ok")
       {
-        $contar = 0;
-        foreach ($l4 as $valueL4)
+        //  Comparar las listas, sin son iguales continua con el siguiente bucle. Si son distintas elimina la lista actual del detalle 
+        foreach ($l3 as $valueL3)
         {
-          if($valueL3["IdProducto"] == $valueL4["IdProducto"])
+          $contar = 0;
+          foreach ($l4 as $valueL4)
           {
-            continue;			
-          }
-          else
-          {
-            $contar = $contar+1;
-            if($contar == count($l4))
+            if($valueL3["IdProducto"] == $valueL4["IdProducto"])
             {
-              //  Si se eliminó un recurso, este debe sumarse del stock que tiene la tienda
-
-
-              //  CONTINUAR AQUI
-              $Eliminar = ModelIngresos::mdlEliminarEditarDetalleIngreso($tablaDetalle, $codIngreso, $valueL3["IdProducto"]);
-              if($Eliminar == "ok")
+              continue;			
+            }
+            else
+            {
+              $contar = $contar+1;
+              if($contar == count($l4))
               {
-                ControllerStock::ctrEliminarUnRecursoIngreso($codTienda, $valueL3["IdProducto"], $valueL3["CantidadMovimiento"]);
+                //  Si se eliminó un recurso, este debe sumarse al stock que había previamente. -> El stock se sumará luego, al ingresar la nueva salida
+                $Eliminar = ModelSalidas::mdlEliminarEditarDetalleSalida($tablaDetalle, $codSalida, $valueL3["IdProducto"]);
+                if($Eliminar == "ok")
+                {
+                  ControllerStock::ctrEliminarUnRecursoSalida($codTienda, $valueL3["IdProducto"], $valueL3["CantidadMovimiento"]);
+                }
               }
             }
           }
-        }
-      }
+        }  
 
-      //  Comparar las listas y actualizar el movimiento con el nuevo detalle
-      foreach ($l4 as $valueL4) 
-      {
-        $contar=0;
-        foreach($l3 as $valueL3)
+        //  Comparar las listas y actualizar el movimiento con el nuevo detalle
+        foreach ($l4 as $valueL4) 
         {
-          //  De tener los mismo valores en las guías del ingreso, solo actualizaremos los valores y el precio del ingreso
-          if($valueL4["IdProducto"] == $valueL3["IdProducto"])
+          $contar=0;
+          foreach($l3 as $valueL3)
           {
-            $datosUpdateDetalle = array(
-              "IdMovimiento" => $codIngreso,
-              "IdProducto" => $valueL4["IdProducto"],
-              "CantidadMovimiento"=>$valueL4["CantidadMovimiento"],
-              "ParcialTotal"=>$valueL4["ParcialTotal"],
-              "FechaActualizacion"=> date("Y-m-d")
-            );
-            $Actualizar = ModelIngresos::mdlActualizarDetalleIngreso($tablaDetalle, $datosUpdateDetalle);
-
-            if($Actualizar == "ok")
+            //  De tener los mismo valores en las guías de la salida, solo actualizaremos los valores y el precio de la salida
+            if($valueL4["IdProducto"] == $valueL3["IdProducto"])
             {
-              $datosStock = array(
-                "CodTienda" => $codTienda,
-                "IdProducto" => $valueL4["IdProducto"],
-                "CantidadAntigua" => $valueL3["CantidadMovimiento"],
-                "CantidadNueva" => $valueL4["CantidadMovimiento"]
-              );
-              //  Editar el stock de un ingreso
-              $respuestaDetalle = ControllerStock::ctrEditarUnIngreso($datosStock);
-            }
-          }
-          else
-          //  De no ser iguales, crearemos nuevos valores
-          {
-            $contar=$contar+1;
-            if($contar == count($l3))
-            {
-              $precioUnitario = ControllerProductos::ctrObtenerPrecioUnitario($valueL4["IdProducto"]);
-              $datosCreateDetalle = array(
-                "IdMovimiento" => $codIngreso,
+              $datosUpdateDetalle = array(
+                "IdMovimiento" => $codSalida,
                 "IdProducto" => $valueL4["IdProducto"],
                 "CantidadMovimiento"=>$valueL4["CantidadMovimiento"],
-                "PrecioUnitario"=>$precioUnitario["PrecioUnitarioProducto"],
                 "ParcialTotal"=>$valueL4["ParcialTotal"],
-                "FechaCreacion"=> date("Y-m-d"),
                 "FechaActualizacion"=> date("Y-m-d")
               );
-              $CrearDetalle = ModelIngresos::mdlIngresarDetalleIngreso($tablaDetalle, $datosCreateDetalle);
+              $Actualizar = ModelSalidas::mdlActualizarDetalleSalida($tablaDetalle, $datosUpdateDetalle);
 
-              if($CrearDetalle == "ok")
+              if($Actualizar == "ok")
               {
                 $datosStock = array(
                   "CodTienda" => $codTienda,
                   "IdProducto" => $valueL4["IdProducto"],
-                  "CantidadNueva" => $valueL4["CantidadMovimiento"],
+                  "CantidadAntigua" => $valueL3["CantidadMovimiento"],
+                  "CantidadNueva" => $valueL4["CantidadMovimiento"]
                 );
-                $respuestaDetalle = ControllerStock::ctrEditarUnIngreso($datosStock);
+                //  Editar el stock de un ingreso
+                $respuestaDetalle = ControllerStock::ctrEditarUnaSalida($datosStock);
               }
             }
+            else
+            //  De no ser iguales, significa que el producto no tiene movimientos y por lo tanto no se puede hacer salidas de este
+            {
+              $respuestaDetalle = "error";
+            }
           }
-        }
-
-        if($respuestaDetalle == "ok")
-        {
-          $datosUpdateCabecera = array(
-            "ActualizaUsuario" => $_SESSION["idUsuario"],
-            "NumeroDocumento" => $_POST["editarNumeroDocumentoIngreso"],
-            "NombreProveedor"=> $_POST["editarNombreProveedor"],
-            "Total" => $_POST["nuevoTotalIngreso"],
-            "FechaMovimiento"=> $_POST["editarFechaDeIngreso"],
-            "FechaActualizacion"=> date("Y-m-d"),
-          );
-  
-          $respuestaCabecera = ModelIngresos::mdlEditarCabeceraIngreso($tablaCabecera, $codIngreso, $datosUpdateCabecera);
-  
-          if($respuestaCabecera == "ok")
+          if($respuestaDetalle == "ok")
           {
             echo '
             <script>
               Swal.fire({
                 icon: "success",
                 title: "Correcto",
-                text: "¡Ingreso editado Correctamente!",
+                text: "Salida editado Correctamente!",
               }).then(function(result){
                 if(result.value){
-                  window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
+                  window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
                 }
               });
             </script>
@@ -432,37 +404,38 @@ class ControllerSalidas
           else
           {
             echo '
-            <script>
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "¡Error al editar el ingreso!",
-              }).then(function(result){
-                if(result.value){
-                  window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
-                }
-              });
-            </script>
+              <script>
+                Swal.fire({
+                  icon: "error",
+                  title: "Error",
+                  text: "¡Error al editar el detalle de la salida!",
+                }).then(function(result){
+                  if(result.value){
+                    window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
+                  }
+                });
+              </script>
             ';
           }
         }
-        else
-        {
-          echo '
-            <script>
-              Swal.fire({
-                icon: "error",
-                title: "Error",
-                text: "¡Error al editar el ingreso!",
-              }).then(function(result){
-                if(result.value){
-                  window.location = "index.php?ruta=ingresos&codTienda='.$codTienda.'";
-                }
-              });
-            </script>
-          ';
-        }
       }
+      else
+      {
+        echo '
+          <script>
+            Swal.fire({
+              icon: "error",
+              title: "Error",
+              text: "¡Error al editar la salida!",
+            }).then(function(result){
+              if(result.value){
+                window.location = "index.php?ruta=salidas&codTienda='.$codTienda.'";
+              }
+            });
+          </script>
+        ';
+      }
+      
     }
   }
 }
